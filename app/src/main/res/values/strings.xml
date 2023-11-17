@@ -19,4 +19,12 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    //permission_rationale_title
+    <string name="permission_rationale_title">Permissions Rationale</string>
+    <string name="permission_rationale_message">To provide you with personalized fitness tracking and health recommendations,
+        our app requires access to your activity data, heart rate, and other health metrics. We ensure your data is encrypted, stored securely, and not shared with third parties. Your privacy and trust are paramount to us.
+    </string>
+    <string name="title_activity_permissions_rationale">Permission Rationale</string>
+
 </resources>
