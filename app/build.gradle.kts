@@ -7,6 +7,7 @@ android {
     namespace = "edu.northeastern.groupprojectgroup20"
     compileSdk = 34
 
+
     defaultConfig {
         applicationId = "edu.northeastern.groupprojectgroup20"
         minSdk = 27
@@ -32,6 +33,11 @@ android {
     }
     buildFeatures {
         viewBinding = true
+    }
+
+    // Reset the JVM target to 1.8
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 

@@ -15,6 +15,10 @@
     <uses-permission android:name="android.permission.health.READ_STEP_COUNT"/>
     <uses-permission android:name="android.permission.health.WRITE_STEP_COUNT"/>
 
+    <queries>
+        <package android:name="com.google.android.apps.healthdata" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -60,9 +64,6 @@
             </intent-filter>
         </activity-alias>
         <!-- Check if Health Connect is installed -->
-        <queries>
-            <package android:name="com.google.android.apps.healthdata" />
-        </queries>
     </application>
 
 </manifest>

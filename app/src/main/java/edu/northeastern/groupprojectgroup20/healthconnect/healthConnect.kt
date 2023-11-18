@@ -57,7 +57,7 @@ class HealthConnect(private val context: Context) {
     }
 
     private fun useHealthConnect() {
-        //obatin a HealthConnectClient instance
+        //obtain a HealthConnectClient instance
         val healthConnectClient = HealthConnectClient.getOrCreate(context, HEALTH_CONNECT_PACKAGE)
         // Use the client to access Health Connect APIs
         // read heart_rate and step data
