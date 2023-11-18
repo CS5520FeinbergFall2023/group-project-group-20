@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -35,6 +36,11 @@ android {
 }
 
 dependencies {
+
+    // health connect sdk dependencies
+    implementation("androidx.health.connect:connect-client:1.1.0-alpha06")
+    // Kotlin dependencies
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")

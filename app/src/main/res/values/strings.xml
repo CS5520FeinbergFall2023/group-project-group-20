@@ -26,5 +26,7 @@
         our app requires access to your activity data, heart rate, and other health metrics. We ensure your data is encrypted, stored securely, and not shared with third parties. Your privacy and trust are paramount to us.
     </string>
     <string name="title_activity_permissions_rationale">Permission Rationale</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
