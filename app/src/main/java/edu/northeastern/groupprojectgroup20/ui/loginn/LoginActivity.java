@@ -1,4 +1,4 @@
-package  edu.northeastern.groupprojectgroup20.ui.login;
+package  edu.northeastern.groupprojectgroup20.ui.loginn;
 
 import android.app.Activity;
 import androidx.lifecycle.Observer;
@@ -19,8 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.northeastern.groupprojectgroup20.R;
-import edu.northeastern.groupprojectgroup20.ui.login.LoginViewModel;
-import edu.northeastern.groupprojectgroup20.ui.login.LoginViewModelFactory;
 import edu.northeastern.groupprojectgroup20.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {

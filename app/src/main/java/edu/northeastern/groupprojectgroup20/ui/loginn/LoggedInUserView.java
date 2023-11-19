@@ -1,4 +1,4 @@
-package  edu.northeastern.groupprojectgroup20.ui.login;
+package  edu.northeastern.groupprojectgroup20.ui.loginn;
 
 /**
  * Class exposing authenticated user details to the UI.

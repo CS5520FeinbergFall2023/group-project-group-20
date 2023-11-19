@@ -19,4 +19,6 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="our_app_name">Fitness and Fight App</string>
+    <string name="cs5520GroupName">CS5520_group_20</string>
 </resources>
