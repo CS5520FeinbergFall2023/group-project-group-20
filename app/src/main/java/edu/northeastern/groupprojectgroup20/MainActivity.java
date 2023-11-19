@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -20,16 +21,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.northeastern.groupprojectgroup20.databinding.ActivityMainBinding;
+import edu.northeastern.groupprojectgroup20.healthconnect.HealthConnectActivity;
 import edu.northeastern.groupprojectgroup20.ui.login.Login;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private Button health_connect;
 
     TextView user_email ;
 FirebaseAuth auth;
 FirebaseUser user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,16 @@ FirebaseUser user;
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        //Test health connect activity
+        health_connect = findViewById(R.id.health_connect_btn);
+        health_connect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HealthConnectActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
