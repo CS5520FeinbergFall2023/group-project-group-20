@@ -3,34 +3,75 @@ package edu.northeastern.groupprojectgroup20.healthconnect
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.HealthConnectClient.Companion.SDK_AVAILABLE
 import androidx.health.connect.client.HealthConnectClient.Companion.SDK_UNAVAILABLE
 import androidx.health.connect.client.HealthConnectClient.Companion.SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED
+import androidx.health.connect.client.PermissionController
+import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.ExerciseSessionRecord
+import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.SleepSessionRecord
+import androidx.health.connect.client.records.StepsRecord
+import androidx.health.connect.client.records.TotalCaloriesBurnedRecord
+import androidx.health.connect.client.request.ReadRecordsRequest
+import androidx.health.connect.client.response.ReadRecordsResponse
+import androidx.health.connect.client.time.TimeRangeFilter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.future.future
+import java.time.Instant
+import java.util.concurrent.CompletableFuture
 
 
 class HealthConnect(private val context: Context) {
+
+    // initialize the HealthConnectClient when init
+    private val healthConnectClient: HealthConnectClient by lazy {
+        HealthConnectClient.getOrCreate(context)
+    }
+
     companion object {
         private const val HEALTH_CONNECT_PACKAGE = "com.google.android.apps.healthdata"
     }
 
-    fun checkHealthConnectAvailability() {
+    val PERMISSIONS =
+            setOf(
+                    HealthPermission.getReadPermission(HeartRateRecord::class),
+                    HealthPermission.getWritePermission(HeartRateRecord::class),
+                    HealthPermission.getReadPermission(StepsRecord::class),
+                    HealthPermission.getWritePermission(StepsRecord::class),
+                    HealthPermission.getReadPermission(TotalCaloriesBurnedRecord::class),
+                    HealthPermission.getWritePermission(TotalCaloriesBurnedRecord::class),
+                    HealthPermission.getReadPermission(SleepSessionRecord::class),
+                    HealthPermission.getWritePermission(SleepSessionRecord::class),
+                    HealthPermission.getReadPermission(ExerciseSessionRecord::class),
+                    HealthPermission.getWritePermission(ExerciseSessionRecord::class)
+            )
+
+    init {
+        // check the availability of Health Connect on the device
+        checkHealthConnectAvailability()
+        //check permissions
+    }
+
+    fun checkHealthConnectAvailability(): Boolean {
         val availabilityStatus = HealthConnectClient.getSdkStatus(context, HEALTH_CONNECT_PACKAGE)
 
-        when (availabilityStatus) {
-            SDK_AVAILABLE -> {
-                // Health Connect is available on the device
-                useHealthConnect()
-            }
-
+        return when (availabilityStatus) {
+            SDK_AVAILABLE -> true
             SDK_UNAVAILABLE -> {
-                // Health Connect is not available on the device
                 handleUnavailability()
+                false
             }
 
             SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED -> {
-                // Health Connect availability is unknown
                 promptUserToUpdateHealthConnect()
+                false
+            }
+
+            else -> {
+                false
             }
         }
     }
@@ -56,11 +97,33 @@ class HealthConnect(private val context: Context) {
         )
     }
 
-    private fun useHealthConnect() {
-        //obtain a HealthConnectClient instance
-        val healthConnectClient = HealthConnectClient.getOrCreate(context, HEALTH_CONNECT_PACKAGE)
-        // Use the client to access Health Connect APIs
-        // read heart_rate and step data
+    fun getHealthConnectClientOrNull(): HealthConnectClient? {
+        return healthConnectClient
+    }
 
+    suspend fun hasAllPermissions(): Boolean {
+        return healthConnectClient.permissionController.getGrantedPermissions().containsAll(PERMISSIONS)
+    }
+
+    fun requestPermissionsActivityContract(): ActivityResultContract<Set<String>, Set<String>> {
+        return PermissionController.createRequestPermissionResultContract()
+    }
+
+    // read all the steps data given time range and return a list of StepsRecord
+    fun readStepsByTimeRange(
+            startTime: Instant,
+            endTime: Instant
+    ): CompletableFuture<ReadRecordsResponse<StepsRecord>> {
+        return GlobalScope.future {
+            healthConnectClient.readRecords(
+                    ReadRecordsRequest(
+                            StepsRecord::class,
+                            timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+                    )
+            )
+        }
     }
 }
+
+
+

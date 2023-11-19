@@ -12,8 +12,8 @@
     <uses-permission android:name="android.permission.health.WRITE_EXERCISE"/>
     <uses-permission android:name="android.permission.health.READ_SLEEP"/>
     <uses-permission android:name="android.permission.health.WRITE_SLEEP"/>
-    <uses-permission android:name="android.permission.health.READ_STEP_COUNT"/>
-    <uses-permission android:name="android.permission.health.WRITE_STEP_COUNT"/>
+    <uses-permission android:name="android.permission.health.READ_STEPS"/>
+    <uses-permission android:name="android.permission.health.WRITE_STEPS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <queries>
