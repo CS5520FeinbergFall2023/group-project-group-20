@@ -1,11 +1,16 @@
 package edu.northeastern.groupprojectgroup20;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,20 +20,36 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.northeastern.groupprojectgroup20.databinding.ActivityMainBinding;
+import edu.northeastern.groupprojectgroup20.ui.login.Login;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
+    TextView user_email ;
+FirebaseAuth auth;
+FirebaseUser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.appBarMain.toolbar);
+
+        // get user account info
+        user_email = findViewById(R.id.user_email);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+//        if (user == null) {
+//            Intent intent = new Intent(getApplicationContext(), Login.class);
+//            startActivity(intent);
+//            finish();
+//        }
+
+//        user_email.setText(user.getEmail());
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

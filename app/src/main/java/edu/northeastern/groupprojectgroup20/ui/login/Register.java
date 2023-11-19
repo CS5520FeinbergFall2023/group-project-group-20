@@ -17,7 +17,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+
+import edu.northeastern.groupprojectgroup20.MainActivity;
 import edu.northeastern.groupprojectgroup20.R;
 
 public class Register extends AppCompatActivity {
@@ -28,6 +31,19 @@ public class Register extends AppCompatActivity {
     FirebaseAuth mAuth;
 
     ProgressBar registerProgressBar;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +53,7 @@ public class Register extends AppCompatActivity {
         buttonRegister = findViewById(R.id.button_register_submit);
         registerProgressBar = findViewById(R.id.register_progress_bar);
         backToLogin = findViewById(R.id.register_back_login);
-
+        mAuth = FirebaseAuth.getInstance();
         backToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +69,6 @@ public class Register extends AppCompatActivity {
                 String email, password;
                 email = editTextEmail.getText().toString();
                 password = editTextPassword.getText().toString();
-                mAuth = FirebaseAuth.getInstance();
                 if (TextUtils.isEmpty(email)){
                     Toast.makeText(Register.this, "Enter Email", Toast.LENGTH_SHORT).show();
                     return;
@@ -69,7 +84,9 @@ public class Register extends AppCompatActivity {
                                     registerProgressBar.setVisibility(View.GONE);
                                     // Sign in success, update UI with the signed-in user's information
                                     Toast.makeText(Register.this, "Authentication Success", Toast.LENGTH_SHORT).show();
-
+                                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                                    startActivity(intent);
+                                    finish();
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(Register.this, "Authentication failed.",

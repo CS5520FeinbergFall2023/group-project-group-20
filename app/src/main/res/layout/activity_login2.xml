@@ -138,9 +138,7 @@
             android:id="@+id/loginInputPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="20dp"
             android:background="@null"
             android:hint="@string/prompt_password"
             android:imeOptions="actionDone"
@@ -150,7 +148,8 @@
             android:textColor="@color/colorTextPrimary"
             android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@+id/loginInputEmail"
-            tools:ignore="Autofill" />
+            tools:ignore="Autofill"
+            tools:layout_editor_absoluteX="40dp" />
 
         <!--        <View-->
         <!--            android:id="@+id/view_divider_for_password"-->
@@ -179,7 +178,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/primary_submit_button"
-            android:text="Login"
+            android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="13sp"
             android:textStyle="bold"
