@@ -81,6 +81,8 @@ public class HealthConnectActivity extends AppCompatActivity {
 //        }, executor);
     }
 
+    // test commit
+
     /**
      * Retrieve and display steps data on a given time range
      * @param startTime
