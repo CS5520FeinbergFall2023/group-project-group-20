@@ -9,12 +9,16 @@ import androidx.health.connect.client.HealthConnectClient.Companion.SDK_AVAILABL
 import androidx.health.connect.client.HealthConnectClient.Companion.SDK_UNAVAILABLE
 import androidx.health.connect.client.HealthConnectClient.Companion.SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED
 import androidx.health.connect.client.PermissionController
+import androidx.health.connect.client.aggregate.AggregateMetric
+import androidx.health.connect.client.aggregate.AggregationResult
 import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.ActiveCaloriesBurnedRecord
 import androidx.health.connect.client.records.ExerciseSessionRecord
 import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.SleepSessionRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.TotalCaloriesBurnedRecord
+import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.response.ReadRecordsResponse
 import androidx.health.connect.client.time.TimeRangeFilter
@@ -22,14 +26,18 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.future.future
 import java.time.Instant
 import java.util.concurrent.CompletableFuture
+import java.time.Duration
 
 
 class HealthConnect(private val context: Context) {
+
+
 
     // initialize the HealthConnectClient when init
     private val healthConnectClient: HealthConnectClient by lazy {
         HealthConnectClient.getOrCreate(context)
     }
+
 
     companion object {
         private const val HEALTH_CONNECT_PACKAGE = "com.google.android.apps.healthdata"
@@ -118,6 +126,83 @@ class HealthConnect(private val context: Context) {
             healthConnectClient.readRecords(
                     ReadRecordsRequest(
                             StepsRecord::class,
+                            timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+                    )
+            )
+        }
+    }
+
+    // read all the heart rate data given time range and return a list of HeartRateRecord
+    fun readHeartRateByTimeRange(
+            startTime: Instant,
+            endTime: Instant
+    ): CompletableFuture<ReadRecordsResponse<HeartRateRecord>> {
+        return GlobalScope.future {
+            healthConnectClient.readRecords(
+                    ReadRecordsRequest(
+                            HeartRateRecord::class,
+                            timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+                    )
+            )
+        }
+    }
+
+    // read all the calories data given time range and return a list of TotalCaloriesBurnedRecord
+    fun readCaloriesByTimeRange(
+            startTime: Instant,
+            endTime: Instant
+    ): CompletableFuture<ReadRecordsResponse<TotalCaloriesBurnedRecord>> {
+        return GlobalScope.future {
+            healthConnectClient.readRecords(
+                    ReadRecordsRequest(
+                            TotalCaloriesBurnedRecord::class,
+                            timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+                    )
+            )
+        }
+    }
+
+    //read all the sleep data given time range and return a list of SleepSessionRecord
+    fun readSleepByTimeRange(
+            startTime: Instant,
+            endTime: Instant
+    ): CompletableFuture<ReadRecordsResponse<SleepSessionRecord>> {
+        return GlobalScope.future {
+            healthConnectClient.readRecords(
+                    ReadRecordsRequest(
+                            SleepSessionRecord::class,
+                            timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+                    )
+            )
+        }
+    }
+
+    fun readTotalSleepByTimeRange(
+        startTime: Instant,
+        endTime: Instant
+    ): CompletableFuture<Duration> {
+        return GlobalScope.future {
+            val result = AggregateRequest(
+                metrics = setOf(SleepSessionRecord.SLEEP_DURATION_TOTAL),
+                timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+            )
+            val response = healthConnectClient.aggregate(result)
+            response[SleepSessionRecord.SLEEP_DURATION_TOTAL]!!
+        }
+    }
+
+
+
+
+    //read all the exercise data given time range and return a list of ExerciseSessionRecord
+    fun readExerciseSessionByTimeRange(
+            startTime: Instant,
+            endTime: Instant
+    ): CompletableFuture<ReadRecordsResponse<ExerciseSessionRecord>> {
+        return GlobalScope.future {
+            healthConnectClient.readRecords(
+                    ReadRecordsRequest(
+                            ExerciseSessionRecord::class,
                             timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
                     )
             )
