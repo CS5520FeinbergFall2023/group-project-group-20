@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.unity3d.player.UnityPlayerActivity;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private Button health_connect;
+    private Button unityLauncher;
 
     TextView user_email ;
 FirebaseAuth auth;
@@ -38,6 +40,9 @@ FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -82,6 +87,12 @@ FirebaseUser user;
                 startActivity(intent);
             }
         });
+        unityLauncher = findViewById(R.id.unityLauncher);
+        unityLauncher.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, UnityPlayerActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     @Override
