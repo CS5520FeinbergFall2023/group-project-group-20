@@ -48,6 +48,7 @@ dependencies {
     implementation("androidx.health.connect:connect-client:1.1.0-alpha06")
     // Kotlin dependencies
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0") // 检查最新版本
 
     implementation(project(":unityLibrary"))
 
@@ -63,4 +64,5 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
 }

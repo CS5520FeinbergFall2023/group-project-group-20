@@ -30,6 +30,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/total_calories_burned_label" />
 
+
+    <TextView
+        android:id="@+id/sensor_steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="8dp"
+        android:text="Sensor Steps: 0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_steps" />
+
     <TextView
         android:id="@+id/sleep_session_label"
         android:layout_width="wrap_content"
@@ -87,7 +98,7 @@
         android:layout_marginTop="28dp"
         android:text="Exercise Session:"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.238"
+        app:layout_constraintHorizontal_bias="0.251"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/total_step_label" />
 
