@@ -66,13 +66,14 @@ FirebaseUser user;
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
-//        if (user == null) {
-//            Intent intent = new Intent(getApplicationContext(), Login.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        if (user == null) {
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+        }
 
 //        user_email.setText(user.getEmail());
+        Log.d(TAG, "user email:           +++++++ " + user.getEmail());
 
         // create a firebase fire store database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -142,12 +143,31 @@ FirebaseUser user;
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
+                                // here is delete data
+
+                                db.collection("users").document("Lovelace")
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error deleting document", e);
+                                            }
+                                        });
                             }
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
                 });
+
+        // test delete remember to remove it later
+
     }
 
     @Override
