@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Declare read and write permissions of data from health connect required by our app -->
 
-    <uses-permission android:name="android.permission.health.HEALTH_DATA"/>
+<!--    <uses-permission android:name="android.permission.health.HEALTH_DATA"/>-->
     <uses-permission android:name="android.permission.health.WRITE_TOTAL_CALORIES_BURNED"/>
     <uses-permission android:name="android.permission.health.READ_TOTAL_CALORIES_BURNED"/>
     <uses-permission android:name="android.permission.health.READ_HEART_RATE"/>
@@ -19,9 +19,9 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
 
-    <queries>
-        <package android:name="com.google.android.apps.healthdata" />
-    </queries>
+<!--    <queries>-->
+<!--        <package android:name="com.google.android.apps.healthdata" />-->
+<!--    </queries>-->
 
     <application
         android:allowBackup="true"
@@ -68,13 +68,25 @@
  For versions starting Android 14, create an activity alias to show the rationale
               of Health Connect permissions once users click the privacy policy link.
         -->
+<!--        <activity-->
+<!--            android:name=".healthconnect.PermissionsRationaleActivity"-->
+<!--            android:label="@string/title_activity_permissions_rationale">-->
+
+<!--            &lt;!&ndash; Intent filters or other properties for the activity &ndash;&gt;-->
+<!--        </activity>-->
+
+        <!-- android 13 and below -->
         <activity
             android:name=".healthconnect.PermissionsRationaleActivity"
+            android:exported="true"
             android:label="@string/title_activity_permissions_rationale">
-
-            <!-- Intent filters or other properties for the activity -->
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
+            <!-- Other intent filters or properties for the activity -->
         </activity>
 
+        <!-- android 14 -->
         <activity-alias
             android:name=".ViewPermissionUsageActivity"
             android:exported="true"

@@ -67,6 +67,7 @@ public class HealthConnectActivity extends AppCompatActivity {
 
 
         healthConnect = new HealthConnect(this);
+
         totalSteps = findViewById(R.id.total_steps);
         totalCalories = findViewById(R.id.total_calories_burned);
         totalSleep = findViewById(R.id.sleep_session);
