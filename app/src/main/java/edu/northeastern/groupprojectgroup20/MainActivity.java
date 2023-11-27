@@ -46,15 +46,14 @@ public class MainActivity extends AppCompatActivity {
     private Button health_connect;
     private Button unityLauncher;
 
-    TextView user_email ;
-FirebaseAuth auth;
-FirebaseUser user;
+    TextView user_email;
+    FirebaseAuth auth;
+    FirebaseUser user;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());

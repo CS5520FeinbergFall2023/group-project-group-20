@@ -228,7 +228,7 @@ public class HealthConnectActivity extends AppCompatActivity {
 
             Log.d("HealthConnectActivity", "retrieveAndDisplayTotalSleepData start");
 
-            final double final_total_sleep = total_sleep / 60.0;
+            final double final_total_sleep = total_sleep;
 
             runOnUiThread(() -> {
                 totalSleep.setText(String.format(Locale.getDefault(), "%.2f", final_total_sleep));

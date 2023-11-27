@@ -32,30 +32,28 @@ import java.time.Duration
 class HealthConnect(private val context: Context) {
 
 
-
     // initialize the HealthConnectClient when init
     private val healthConnectClient: HealthConnectClient by lazy {
         HealthConnectClient.getOrCreate(context)
     }
-
 
     companion object {
         private const val HEALTH_CONNECT_PACKAGE = "com.google.android.apps.healthdata"
     }
 
     val PERMISSIONS =
-            setOf(
-                    HealthPermission.getReadPermission(HeartRateRecord::class),
-                    HealthPermission.getWritePermission(HeartRateRecord::class),
-                    HealthPermission.getReadPermission(StepsRecord::class),
-                    HealthPermission.getWritePermission(StepsRecord::class),
-                    HealthPermission.getReadPermission(TotalCaloriesBurnedRecord::class),
-                    HealthPermission.getWritePermission(TotalCaloriesBurnedRecord::class),
-                    HealthPermission.getReadPermission(SleepSessionRecord::class),
-                    HealthPermission.getWritePermission(SleepSessionRecord::class),
-                    HealthPermission.getReadPermission(ExerciseSessionRecord::class),
-                    HealthPermission.getWritePermission(ExerciseSessionRecord::class)
-            )
+        setOf(
+            HealthPermission.getReadPermission(HeartRateRecord::class),
+            HealthPermission.getWritePermission(HeartRateRecord::class),
+            HealthPermission.getReadPermission(StepsRecord::class),
+            HealthPermission.getWritePermission(StepsRecord::class),
+            HealthPermission.getReadPermission(TotalCaloriesBurnedRecord::class),
+            HealthPermission.getWritePermission(TotalCaloriesBurnedRecord::class),
+            HealthPermission.getReadPermission(SleepSessionRecord::class),
+            HealthPermission.getWritePermission(SleepSessionRecord::class),
+            HealthPermission.getReadPermission(ExerciseSessionRecord::class),
+            HealthPermission.getWritePermission(ExerciseSessionRecord::class)
+        )
 
     init {
         // check the availability of Health Connect on the device
@@ -86,7 +84,8 @@ class HealthConnect(private val context: Context) {
 
     private fun handleUnavailability() {
         val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse("https://play.google.com/store/apps/details?id=$HEALTH_CONNECT_PACKAGE")
+            data =
+                Uri.parse("https://play.google.com/store/apps/details?id=$HEALTH_CONNECT_PACKAGE")
 
         }
         context.startActivity(intent)
@@ -94,14 +93,15 @@ class HealthConnect(private val context: Context) {
 
     // Optionally redirect to package installer to find a provider, for example:
     private fun promptUserToUpdateHealthConnect() {
-        val uriString = "market://details?id=$HEALTH_CONNECT_PACKAGE&url=healthconnect%3A%2F%2Fonboarding"
+        val uriString =
+            "market://details?id=$HEALTH_CONNECT_PACKAGE&url=healthconnect%3A%2F%2Fonboarding"
         context.startActivity(
-                Intent(Intent.ACTION_VIEW).apply {
-                    setPackage("com.android.vending")
-                    data = Uri.parse(uriString)
-                    putExtra("overlay", true)
-                    putExtra("callerId", context.packageName)
-                }
+            Intent(Intent.ACTION_VIEW).apply {
+                setPackage("com.android.vending")
+                data = Uri.parse(uriString)
+                putExtra("overlay", true)
+                putExtra("callerId", context.packageName)
+            }
         )
     }
 
@@ -110,7 +110,8 @@ class HealthConnect(private val context: Context) {
     }
 
     suspend fun hasAllPermissions(): Boolean {
-        return healthConnectClient.permissionController.getGrantedPermissions().containsAll(PERMISSIONS)
+        return healthConnectClient.permissionController.getGrantedPermissions()
+            .containsAll(PERMISSIONS)
     }
 
     fun requestPermissionsActivityContract(): ActivityResultContract<Set<String>, Set<String>> {
@@ -121,60 +122,60 @@ class HealthConnect(private val context: Context) {
 
     // read all the steps data given time range and return a list of StepsRecord
     fun readStepsByTimeRange(
-            startTime: Instant,
-            endTime: Instant
+        startTime: Instant,
+        endTime: Instant
     ): CompletableFuture<ReadRecordsResponse<StepsRecord>> {
         return GlobalScope.future {
             healthConnectClient.readRecords(
-                    ReadRecordsRequest(
-                            StepsRecord::class,
-                            timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
-                    )
+                ReadRecordsRequest(
+                    StepsRecord::class,
+                    timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+                )
             )
         }
     }
 
     // read all the heart rate data given time range and return a list of HeartRateRecord
     fun readHeartRateByTimeRange(
-            startTime: Instant,
-            endTime: Instant
+        startTime: Instant,
+        endTime: Instant
     ): CompletableFuture<ReadRecordsResponse<HeartRateRecord>> {
         return GlobalScope.future {
             healthConnectClient.readRecords(
-                    ReadRecordsRequest(
-                            HeartRateRecord::class,
-                            timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
-                    )
+                ReadRecordsRequest(
+                    HeartRateRecord::class,
+                    timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+                )
             )
         }
     }
 
     // read all the calories data given time range and return a list of TotalCaloriesBurnedRecord
     fun readCaloriesByTimeRange(
-            startTime: Instant,
-            endTime: Instant
+        startTime: Instant,
+        endTime: Instant
     ): CompletableFuture<ReadRecordsResponse<TotalCaloriesBurnedRecord>> {
         return GlobalScope.future {
             healthConnectClient.readRecords(
-                    ReadRecordsRequest(
-                            TotalCaloriesBurnedRecord::class,
-                            timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
-                    )
+                ReadRecordsRequest(
+                    TotalCaloriesBurnedRecord::class,
+                    timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+                )
             )
         }
     }
 
     //read all the sleep data given time range and return a list of SleepSessionRecord
     fun readSleepByTimeRange(
-            startTime: Instant,
-            endTime: Instant
+        startTime: Instant,
+        endTime: Instant
     ): CompletableFuture<ReadRecordsResponse<SleepSessionRecord>> {
         return GlobalScope.future {
             healthConnectClient.readRecords(
-                    ReadRecordsRequest(
-                            SleepSessionRecord::class,
-                            timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
-                    )
+                ReadRecordsRequest(
+                    SleepSessionRecord::class,
+                    timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+                )
             )
         }
     }
@@ -194,19 +195,17 @@ class HealthConnect(private val context: Context) {
     }
 
 
-
-
     //read all the exercise data given time range and return a list of ExerciseSessionRecord
     fun readExerciseSessionByTimeRange(
-            startTime: Instant,
-            endTime: Instant
+        startTime: Instant,
+        endTime: Instant
     ): CompletableFuture<ReadRecordsResponse<ExerciseSessionRecord>> {
         return GlobalScope.future {
             healthConnectClient.readRecords(
-                    ReadRecordsRequest(
-                            ExerciseSessionRecord::class,
-                            timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
-                    )
+                ReadRecordsRequest(
+                    ExerciseSessionRecord::class,
+                    timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+                )
             )
         }
     }
