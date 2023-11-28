@@ -182,8 +182,7 @@ public class Register extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                            // add a listener
-                            firebaseUser.sendEmailVerification();
+
 
 
                             UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
@@ -204,9 +203,21 @@ public class Register extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()){
                                                 registerProgressBar.setVisibility(View.GONE);
-                                                Toast.makeText(Register.this, "Authentication Success", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(getApplicationContext(), Login.class);
-                                                startActivity(intent);
+
+                                                // add a listener
+                                                    firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()){
+                                                                Toast.makeText(Register.this, "Authentication Success", Toast.LENGTH_SHORT).show();
+                                                                Intent intent = new Intent(getApplicationContext(), Login.class);
+                                                                startActivity(intent);
+                                                            }else{
+                                                                Toast.makeText(Register.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                    });
+
                                             }else{
                                                 Toast.makeText(Register.this, "Authentication Faild", Toast.LENGTH_SHORT).show();
                                             }
