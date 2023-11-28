@@ -1,4 +1,4 @@
-package edu.northeastern.groupprojectgroup20.ui.gallery;
+package edu.northeastern.groupprojectgroup20.ui.profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
