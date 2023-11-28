@@ -32,7 +32,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
 import edu.northeastern.groupprojectgroup20.MainActivity;
 import edu.northeastern.groupprojectgroup20.R;
 import edu.northeastern.groupprojectgroup20.data.model.UserDetails;
@@ -177,11 +182,19 @@ public class Register extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                            // add a listener
                             firebaseUser.sendEmailVerification();
+
+
                             UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
                             firebaseUser.updateProfile(profileChangeRequest);
 
-                            UserDetails readWriteUserDetails = new UserDetails( dob, gender, weight , height);
+                            // create account date
+                            Date date = Calendar.getInstance().getTime();
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                            String strDate = dateFormat.format(date);
+
+                            UserDetails readWriteUserDetails = new UserDetails( dob, gender, weight , height, strDate);
                             // Extracting User reference from database for "register User"
                             DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Register Users");
                             referenceProfile.child(firebaseUser.getUid())
@@ -194,7 +207,6 @@ public class Register extends AppCompatActivity {
                                                 Toast.makeText(Register.this, "Authentication Success", Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(getApplicationContext(), Login.class);
                                                 startActivity(intent);
-                                                finish();
                                             }else{
                                                 Toast.makeText(Register.this, "Authentication Faild", Toast.LENGTH_SHORT).show();
                                             }
