@@ -18,6 +18,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -74,28 +76,12 @@ public class MainActivity extends AppCompatActivity {
 //        user_email.setText(user.getEmail());
         Log.d(TAG, "user email:           +++++++ " + user.getEmail());
 
-        // create a firebase fire store database
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // create a firebase realtime database
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
         // create a db table for store or update if need
-        Map<String, Object> user = new HashMap<>();
-        user.put("userEmail", "Ada");
-        user.put("last", "Lovelace");
-        user.put("born", 1815);
-        // Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+        DatabaseReference myRef = db.getReference("message");
+
+        myRef.setValue("Hello, World!");
 
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,39 +119,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 
-        // test the db which the name is users and return all the data from this database
-        db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                // here is delete data
 
-                                db.collection("users").document("Lovelace")
-                                        .delete()
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error deleting document", e);
-                                            }
-                                        });
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-
-        // test delete remember to remove it later
 
     }
 
