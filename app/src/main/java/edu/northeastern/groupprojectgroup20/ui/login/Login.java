@@ -3,8 +3,10 @@ package edu.northeastern.groupprojectgroup20.ui.login;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -80,10 +82,16 @@ public class Login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                               //     updateUI(user);
+                                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                    if (firebaseUser.isEmailVerified()){
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }else {
+                                        firebaseUser.sendEmailVerification();
+                                        mAuth.signOut();
+                                        showAlertDialog();
+                                    }
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(Login.this, "Authentication failed.",
@@ -105,5 +113,25 @@ public class Login extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+        builder.setTitle("Email is not verified");
+        builder.setMessage("Please verify your email now. You can not login without email verification");
+        // Open Email Apps if user clicks
+        builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // To email app in the new window
+                startActivity(intent);
+            }
+        });
+
+        // create AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

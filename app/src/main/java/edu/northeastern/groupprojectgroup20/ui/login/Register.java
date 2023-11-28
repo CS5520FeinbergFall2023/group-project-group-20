@@ -23,8 +23,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.Firebase;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -34,11 +32,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.core.Tag;
-
-
 import java.util.Calendar;
-
 import edu.northeastern.groupprojectgroup20.MainActivity;
 import edu.northeastern.groupprojectgroup20.R;
 import edu.northeastern.groupprojectgroup20.data.model.UserDetails;
@@ -47,7 +41,6 @@ public class Register extends AppCompatActivity {
 
     TextInputEditText editTextEmail, editTextPassword,editConfirmTextPassword,
             editTextFullName, editTextDob, editTextWeight, editTextHeight;
-    String editTextGender;
     TextView backToLogin;
     Button buttonRegister;
     FirebaseAuth mAuth;
@@ -62,8 +55,9 @@ public class Register extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        mAuth = FirebaseAuth.getInstance();
+  //      FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(mAuth.getCurrentUser() != null){
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
@@ -76,6 +70,7 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         init();
         editTextDob = findViewById(R.id.register_dob);
+
         editTextDob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,11 +176,12 @@ public class Register extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
+                            firebaseUser.sendEmailVerification();
                             UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
                             firebaseUser.updateProfile(profileChangeRequest);
 
                             UserDetails readWriteUserDetails = new UserDetails( dob, gender, weight , height);
+                            Log.e(TAG,readWriteUserDetails.toString());
                             // Extracting User reference from database for "register User"
                             DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Register Users");
                             referenceProfile.child(firebaseUser.getUid())
@@ -195,7 +191,6 @@ public class Register extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()){
                                                 registerProgressBar.setVisibility(View.GONE);
-                                                firebaseUser.sendEmailVerification();
                                                 Toast.makeText(Register.this, "Authentication Success", Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(getApplicationContext(), Login.class);
                                                 startActivity(intent);
@@ -238,8 +233,6 @@ public class Register extends AppCompatActivity {
         backToLogin = findViewById(R.id.register_back_login);
         editConfirmTextPassword =findViewById(R.id.register_password_2);
         editTextFullName = findViewById(R.id.register_full_name);
-
-
         editTextWeight = findViewById(R.id.register_weight);
         editTextHeight = findViewById(R.id.register_height);
         radioGroupRegisterGender = findViewById(R.id.radio_group_register_gender);

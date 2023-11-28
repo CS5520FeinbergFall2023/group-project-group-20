@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         user_email = findViewById(R.id.user_email);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
