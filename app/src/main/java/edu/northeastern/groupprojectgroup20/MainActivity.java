@@ -36,9 +36,14 @@ public class MainActivity extends AppCompatActivity {
     private Button health_connect;
     private Button unityLauncher;
 
-    TextView user_email;
+    TextView display_user_email;
+
+    TextView display_full_name;
+
+    TextView sign_out;
     FirebaseAuth auth;
     FirebaseUser user;
+    NavigationView navigationView;
 
 
     @Override
@@ -51,9 +56,25 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.appBarMain.toolbar);
 
         // get user account info
-        user_email = findViewById(R.id.user_email);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+
+        // set navibar
+        navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+         display_full_name = headerView.findViewById(R.id.user_name_display);
+         display_user_email = headerView.findViewById(R.id.user_email_display);
+        sign_out = headerView.findViewById(R.id.sign_out);
+         display_full_name.setText(user.getDisplayName());
+         display_user_email.setText(user.getEmail());
+
+         sign_out.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 FirebaseAuth.getInstance().signOut();
+                 finish();
+             }
+         });
         if (user == null) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
