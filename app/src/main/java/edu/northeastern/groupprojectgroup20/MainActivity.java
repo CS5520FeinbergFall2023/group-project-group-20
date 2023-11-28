@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                  FirebaseAuth.getInstance().signOut();
                  Intent intent = new Intent(getApplicationContext(), Login.class);
                  startActivity(intent);
-                 finish();
              }
          });
         if (user == null) {
@@ -83,15 +82,15 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-//        user_email.setText(user.getEmail());
-        Log.d(TAG, "user email:           +++++++ " + user.getEmail());
+////        user_email.setText(user.getEmail());
+//        Log.d(TAG, "user email:           +++++++ " + user.getEmail());
 
-        // create a firebase realtime database
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        // create a db table for store or update if need
-        DatabaseReference myRef = db.getReference("message");
-
-        myRef.setValue("Hello, World!");
+//        // create a firebase realtime database
+//        FirebaseDatabase db = FirebaseDatabase.getInstance();
+//        // create a db table for store or update if need
+//        DatabaseReference myRef = db.getReference("message");
+//
+//        myRef.setValue("Hello, World!");
 
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override

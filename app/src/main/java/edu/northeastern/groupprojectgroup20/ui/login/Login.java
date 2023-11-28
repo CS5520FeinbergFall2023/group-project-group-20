@@ -37,7 +37,7 @@ public class Login extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null || currentUser.isEmailVerified()){
+        if(currentUser != null && currentUser.isEmailVerified()){
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
@@ -88,9 +88,14 @@ public class Login extends AppCompatActivity {
                                         startActivity(intent);
                                         finish();
                                     }else {
-                                        firebaseUser.sendEmailVerification();
-                                        mAuth.signOut();
-                                        showAlertDialog();
+                                        firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                mAuth.signOut();
+                                                showAlertDialog();
+                                            }
+                                        });
+
                                     }
                                 } else {
                                     // If sign in fails, display a message to the user.
