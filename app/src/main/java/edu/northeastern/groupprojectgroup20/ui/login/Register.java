@@ -86,6 +86,7 @@ public class Register extends AppCompatActivity {
                         editTextDob.setText(dayOfMonth+"/"+(month)+"/"+year);
                     }
                 }, year,month, day);
+                picker.show();
             }
         });
 
@@ -181,7 +182,6 @@ public class Register extends AppCompatActivity {
                             firebaseUser.updateProfile(profileChangeRequest);
 
                             UserDetails readWriteUserDetails = new UserDetails( dob, gender, weight , height);
-                            Log.e(TAG,readWriteUserDetails.toString());
                             // Extracting User reference from database for "register User"
                             DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Register Users");
                             referenceProfile.child(firebaseUser.getUid())
