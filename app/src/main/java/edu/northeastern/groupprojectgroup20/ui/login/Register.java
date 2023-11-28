@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -29,11 +31,17 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.core.Tag;
 
 
+import java.util.Calendar;
+
 import edu.northeastern.groupprojectgroup20.MainActivity;
 import edu.northeastern.groupprojectgroup20.R;
+import edu.northeastern.groupprojectgroup20.data.model.UserDetails;
 
 public class Register extends AppCompatActivity {
 
@@ -47,6 +55,8 @@ public class Register extends AppCompatActivity {
     RadioGroup radioGroupRegisterGender;
     RadioButton radioButtonRegisterGenderSelected;
     ProgressBar registerProgressBar;
+
+    DatePickerDialog picker;
 
     @Override
     public void onStart() {
@@ -65,6 +75,24 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         init();
+        editTextDob = findViewById(R.id.register_dob);
+        editTextDob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+
+                // Date picker
+                picker = new DatePickerDialog(Register.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        editTextDob.setText(dayOfMonth+"/"+(month)+"/"+year);
+                    }
+                }, year,month, day);
+            }
+        });
 
         backToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,12 +179,36 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            registerProgressBar.setVisibility(View.GONE);
                             // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(Register.this, "Authentication Success", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
-                            startActivity(intent);
-                            finish();
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
+                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
+                            firebaseUser.updateProfile(profileChangeRequest);
+
+                            UserDetails readWriteUserDetails = new UserDetails( dob, gender, weight , height);
+                            // Extracting User reference from database for "register User"
+                            DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Register Users");
+                            referenceProfile.child(firebaseUser.getUid())
+                                    .setValue(readWriteUserDetails)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()){
+                                                registerProgressBar.setVisibility(View.GONE);
+                                                firebaseUser.sendEmailVerification();
+                                                Toast.makeText(Register.this, "Authentication Success", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(getApplicationContext(), Login.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }else{
+                                                Toast.makeText(Register.this, "Authentication Faild", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }
+                                    });
+
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             try {
@@ -186,7 +238,8 @@ public class Register extends AppCompatActivity {
         backToLogin = findViewById(R.id.register_back_login);
         editConfirmTextPassword =findViewById(R.id.register_password_2);
         editTextFullName = findViewById(R.id.register_full_name);
-        editTextDob = findViewById(R.id.register_dob);
+
+
         editTextWeight = findViewById(R.id.register_weight);
         editTextHeight = findViewById(R.id.register_height);
         radioGroupRegisterGender = findViewById(R.id.radio_group_register_gender);
