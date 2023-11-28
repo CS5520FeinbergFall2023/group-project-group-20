@@ -52,21 +52,136 @@
             tools:layout_editor_absoluteX="4dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/register_text_view_password"
+        android:id="@+id/register_text_view_password_2"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_password_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirm your password"
+            tools:layout_editor_absoluteX="4dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/register_text_view_password_2"
+        android:id="@+id/register_text_view_full_name"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_full_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your full name"
+            tools:layout_editor_absoluteX="4dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/register_text_view_full_name"
+        android:id="@+id/register_text_view_dob"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_dob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date_of_birth"
+            tools:layout_editor_absoluteX="4dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/register_text_view_dob"
+        android:id="@+id/text_view_gender"
+        android:text="@string/gender"
+        android:layout_marginTop="5dp"
+        android:gravity="start"
+        android:textSize="16sp"
+        android:textColor="@color/colorLayerDark"
+
+        >
+    </TextView>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/radio_group_register_gender"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_gender"
+        >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/register_radio_female"
+            android:text="Female"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextHint"
+            android:layout_marginLeft="20dp"
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/register_radio_male"
+            android:text="Male"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextHint"
+            android:layout_marginLeft="20dp"
+            />
+    </RadioGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group_register_gender"
+        android:id="@+id/register_text_view_weight"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your Weight"
+            tools:layout_editor_absoluteX="4dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/register_text_view_weight"
+        android:id="@+id/register_text_view_height"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your Height"
+            tools:layout_editor_absoluteX="4dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_register_submit"
-        android:text="submit"
+        android:text="@string/submit"
         android:background="@drawable/secondary_button_background"
-        app:layout_constraintTop_toBottomOf="@+id/register_text_view_password"
+        app:layout_constraintTop_toBottomOf="@+id/register_text_view_height"
         android:layout_marginTop="10dp"
         />
+
     <ProgressBar
+        android:id="@+id/register_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/register_progress_bar"
         android:visibility="gone"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/register_back_login"
@@ -81,15 +196,5 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="0dp" />
 
-    <ImageView
-        android:id="@+id/loginHeaderImage"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:contentDescription="@android:string/autofill"
-        android:scaleType="centerCrop"
-        android:src="@drawable/images_register"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_back_login" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
