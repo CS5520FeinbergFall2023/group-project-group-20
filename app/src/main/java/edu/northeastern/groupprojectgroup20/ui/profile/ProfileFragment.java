@@ -16,8 +16,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -93,6 +96,7 @@ public class ProfileFragment extends Fragment {
                 editContent.setVisibility(View.INVISIBLE);
                 textView_profile_weight.setEnabled(true);
                 textView_profile_height.setEnabled(true);
+                textView_profile_dob.setEnabled(true);
                 submitChange.setVisibility(View.VISIBLE);
                 conceal.setVisibility(View.VISIBLE);
             }
@@ -103,6 +107,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 textView_profile_weight.setEnabled(false);
                 textView_profile_height.setEnabled(false);
+                textView_profile_dob.setEnabled(false);
                 submitChange.setVisibility(View.INVISIBLE);
                 conceal.setVisibility(View.INVISIBLE);
                 showUserProfile(firebaseUser);
@@ -116,7 +121,45 @@ public class ProfileFragment extends Fragment {
                 textView_profile_height.setEnabled(false);
                 submitChange.setVisibility(View.INVISIBLE);
                 conceal.setVisibility(View.INVISIBLE);
-                String weight, height;
+                String weight, height, name,dob;
+                weight = textView_profile_weight.getText().toString();
+                height = textView_profile_height.getText().toString();
+                dob = textView_profile_dob.getText().toString();
+
+                name = textView_profile_alias_name.getText().toString();
+
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Register Users");
+
+                reference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        UserDetails userDetails = snapshot.getValue(UserDetails.class);
+                        if(userDetails!=null) {
+                            userDetails.height = height;
+                            userDetails.weight = weight;
+                            userDetails.dob = dob;
+                            reference.child(firebaseUser.getUid()).setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+                                        firebaseUser.updateProfile(profileChangeRequest);
+                                        setProfileText(firebaseUser, userDetails);
+                                        Toast.makeText(getActivity(), "Update success!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
             }
         });
@@ -144,18 +187,6 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserDetails userDetails = snapshot.getValue(UserDetails.class);
                 if (userDetails != null) {
-//                    alis_name = firebaseUser.getDisplayName();
-//                    userEmail = firebaseUser.getEmail();
-//                    userGender = userDetails.gender;
-//                    userDob = userDetails.dob;
-//                    userHeight = userDetails.height;
-//                    userWeight = userDetails.weight;
-//                    textView_show_mail.setText(userEmail);
-//                    textView_profile_dob.setText(userDob);
-//                    textView_profile_alias_name.setText(alis_name);
-//                    textView_profile_gender.setText(userGender);
-//                    textView_profile_weight.setText(userWeight);
-//                    textView_profile_height.setText(userHeight);
                     setProfileText(firebaseUser,userDetails);
                 }
                 progressBar.setVisibility(View.GONE);
