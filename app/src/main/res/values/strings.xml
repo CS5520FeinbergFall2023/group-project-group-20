@@ -35,5 +35,6 @@
     <string name="gender">Gender</string>
     <string name="date_of_birth">Select your date of birth (dd/mm/yyyy)*</string>
     <string name="submit">submit</string>
+    <string name="enter_your_register_email">Enter your register email</string>
 
 </resources>

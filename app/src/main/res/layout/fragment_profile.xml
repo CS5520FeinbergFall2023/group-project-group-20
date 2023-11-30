@@ -41,15 +41,18 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:id="@+id/profile_photo"
+                android:scaleType="fitXY"
                 android:layout_centerInParent="true"
                 android:background="@drawable/no_profile_img"
                 />
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_show_alias"
                 android:layout_below="@id/profile_photo"
                 android:hint="Loading..."
+                android:inputType="text"
+                android:enabled="false"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -71,7 +74,7 @@
                 android:background="@drawable/ic_profile"
                 />
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -80,6 +83,8 @@
                 android:hint="Loading..."
                 android:layout_marginStart="50dp"
                 android:textSize="18sp"
+                android:inputType="textEmailAddress"
+                android:enabled="false"
                 />
             <View
                 android:layout_width="match_parent"
@@ -97,7 +102,7 @@
                 android:id="@+id/ic_dob"
                 android:background="@drawable/ic_dob"
                 />
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_profile_dob"
@@ -106,6 +111,8 @@
                 android:layout_marginTop="20dp"
                 android:hint="Loading..."
                 android:layout_marginStart="50dp"
+                android:inputType="date"
+                android:enabled="false"
                 android:textSize="18sp"
                 />
             <View
@@ -124,7 +131,7 @@
                 android:id="@+id/ic_gender"
                 android:background="@drawable/ic_gender"
                 />
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_profile_gender"
@@ -132,6 +139,8 @@
                 android:layout_below="@+id/below_line_2"
                 android:layout_marginTop="20dp"
                 android:hint="Loading..."
+                android:inputType="text"
+                android:enabled="false"
                 android:layout_marginStart="50dp"
                 android:textSize="18sp"
                 />
@@ -151,7 +160,7 @@
                 android:id="@+id/ic_weight"
                 android:background="@drawable/ic_weight"
                 />
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_profile_weight"
@@ -160,6 +169,8 @@
                 android:layout_marginTop="20dp"
                 android:hint="Loading..."
                 android:layout_marginStart="50dp"
+                android:inputType="number"
+                android:enabled="false"
                 android:textSize="18sp"
                 />
             <View
@@ -178,25 +189,60 @@
                 android:id="@+id/ic_height"
                 android:background="@drawable/ic_height"
                 />
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_profile_height"
                 android:layout_alignStart="@+id/ic_height"
                 android:layout_below="@+id/below_line_4"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:hint="Loading..."
                 android:layout_marginStart="50dp"
                 android:textSize="18sp"
+                android:inputType="number"
+                android:enabled="false"
                 />
             <View
                 android:id="@+id/below_line_5"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_below="@+id/textView_profile_height"
                 />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/change_weight_or_height"
+                android:layout_below="@id/below_line_5"
+                android:text="want change your weight or height?"
+                android:textColor="@color/black"
+                android:background="@color/cardview_shadow_start_color"
+                android:visibility="visible"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/submit_change_weight_or_height"
+                android:layout_below="@id/below_line_5"
+                android:text="@string/submit"
+                android:textColor="@color/black"
+                android:background="@color/cardview_shadow_start_color"
+                android:visibility="invisible"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/conceal_change_weight_or_height"
+                android:layout_below="@id/below_line_5"
+                android:text="conceal"
+                android:textColor="@color/black"
+                android:background="@color/cardview_shadow_start_color"
+                android:visibility="invisible"
+                android:layout_toEndOf="@+id/submit_change_weight_or_height"
+                android:layout_marginStart="20dp"
+                />
         </RelativeLayout>
     </LinearLayout>
 

@@ -3,11 +3,13 @@ package edu.northeastern.groupprojectgroup20;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -16,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 //import com.unity3d.player.UnityPlayerActivity;
 
 import androidx.navigation.NavController;
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     TextView display_user_email;
 
     TextView display_full_name;
-
+    ImageView profile_image;
     TextView sign_out;
     FirebaseAuth auth;
     FirebaseUser user;
@@ -64,9 +67,17 @@ public class MainActivity extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
          display_full_name = headerView.findViewById(R.id.user_name_display);
          display_user_email = headerView.findViewById(R.id.user_email_display);
+        profile_image = headerView.findViewById(R.id.profile_image_header);
+
         sign_out = headerView.findViewById(R.id.sign_out);
          display_full_name.setText(user.getDisplayName());
          display_user_email.setText(user.getEmail());
+
+        Uri uri = user.getPhotoUrl();
+        if (uri != null) {
+            Picasso.get().load(uri).into(profile_image);
+        }
+
 
          sign_out.setOnClickListener(new View.OnClickListener() {
              @Override
