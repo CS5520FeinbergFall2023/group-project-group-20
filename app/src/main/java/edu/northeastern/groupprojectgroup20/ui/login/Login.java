@@ -42,6 +42,7 @@ public class Login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null && currentUser.isEmailVerified()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            //
             startActivity(intent);
             finish();
         }
@@ -97,6 +98,7 @@ public class Login extends AppCompatActivity {
                                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                     if (firebaseUser != null && firebaseUser.isEmailVerified()) {
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        //
                                         startActivity(intent);
                                         finish();
                                     } else {
