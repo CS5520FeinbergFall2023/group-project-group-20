@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null && currentUser.isEmailVerified()){
+        if (currentUser != null && currentUser.isEmailVerified()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
@@ -54,7 +54,7 @@ public class Login extends AppCompatActivity {
         loginEmail = findViewById(R.id.loginInputEmail);
         loginPassword = findViewById(R.id.loginInputPassword);
         loginSubmit = findViewById(R.id.button_login);
-        registerSubmit= findViewById(R.id.button_create_account);
+        registerSubmit = findViewById(R.id.button_create_account);
         forgetPassword = findViewById(R.id.text_forget_password);
 
         mAuth = FirebaseAuth.getInstance();
@@ -80,26 +80,26 @@ public class Login extends AppCompatActivity {
                 String email, password;
                 email = loginEmail.getText().toString();
                 password = loginPassword.getText().toString();
-                if (TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Login.this, "Enter Email", Toast.LENGTH_SHORT).show();
                     return;
-                }else if (TextUtils.isEmpty(password)){
+                } else if (TextUtils.isEmpty(password)) {
                     Toast.makeText(Login.this, "Enter Password", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                                    if (firebaseUser!=null && firebaseUser.isEmailVerified()){
+                                    if (firebaseUser != null && firebaseUser.isEmailVerified()) {
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(intent);
                                         finish();
-                                    }else {
+                                    } else {
                                         firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
@@ -113,18 +113,18 @@ public class Login extends AppCompatActivity {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(Login.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
-                                 try {
-                                     throw task.getException();
+                                    try {
+                                        throw task.getException();
 
-                                 } catch ( FirebaseAuthInvalidUserException e){
-                                     loginEmail.setError("User does not exists or is no longer valid. Please register again");
-                                     loginEmail.requestFocus();
-                                 } catch (FirebaseAuthInvalidCredentialsException e){
-                                     loginEmail.setError("Invalid credentials. kindly, check and re-enter.");
-                                     loginEmail.requestFocus();
-                                 } catch (Exception e) {
-                                     Log.e(TAG, e.getMessage());
-                                 }
+                                    } catch (FirebaseAuthInvalidUserException e) {
+                                        loginEmail.setError("User does not exists or is no longer valid. Please register again");
+                                        loginEmail.requestFocus();
+                                    } catch (FirebaseAuthInvalidCredentialsException e) {
+                                        loginEmail.setError("Invalid credentials. kindly, check and re-enter.");
+                                        loginEmail.requestFocus();
+                                    } catch (Exception e) {
+                                        Log.e(TAG, e.getMessage());
+                                    }
                                 }
                             }
                         });

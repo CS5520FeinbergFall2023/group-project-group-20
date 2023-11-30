@@ -19,6 +19,7 @@ import androidx.health.connect.client.records.SleepSessionRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.TotalCaloriesBurnedRecord
 import androidx.health.connect.client.request.AggregateRequest
+import androidx.health.connect.client.request.ChangesTokenRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.response.ReadRecordsResponse
 import androidx.health.connect.client.time.TimeRangeFilter
@@ -59,7 +60,26 @@ class HealthConnect(private val context: Context) {
         // check the availability of Health Connect on the device
         checkHealthConnectAvailability()
         //check permissions
+
     }
+
+    /**
+     * TODO: Obtains a Changes token for the specified record types.
+     */
+    suspend fun getChangesToken(): String {
+        return healthConnectClient.getChangesToken(
+            ChangesTokenRequest(
+                setOf(
+                    ExerciseSessionRecord::class,
+                    StepsRecord::class,
+                    TotalCaloriesBurnedRecord::class,
+                    SleepSessionRecord::class
+                )
+            )
+        )
+    }
+
+
 
     fun checkHealthConnectAvailability(): Boolean {
         val availabilityStatus = HealthConnectClient.getSdkStatus(context, HEALTH_CONNECT_PACKAGE)
