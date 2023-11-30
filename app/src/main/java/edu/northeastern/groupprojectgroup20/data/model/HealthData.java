@@ -19,7 +19,7 @@ public class HealthData {
         this.exercise = exercise;
         this.sleep = sleep;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         this.lastUpdateTime = timeStamp.format(formatter);
     }
 

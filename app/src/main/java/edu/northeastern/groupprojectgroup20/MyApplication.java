@@ -17,7 +17,7 @@ public class MyApplication extends Application {
         super.onCreate();
         Log.d("MyApplication", "onCreate: ");
         PeriodicWorkRequest healthDataFetchRequest =
-                new PeriodicWorkRequest.Builder(HealthDataFetchWorker.class, 1, TimeUnit.MINUTES)
+                new PeriodicWorkRequest.Builder(HealthDataFetchWorker.class, 1, TimeUnit.HOURS)
                 .build();
         WorkManager.getInstance(this).enqueue(healthDataFetchRequest);
         Log.d("MyApplication", "onCreate: work start");
