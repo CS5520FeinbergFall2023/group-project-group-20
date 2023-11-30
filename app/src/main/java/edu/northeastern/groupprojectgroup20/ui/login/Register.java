@@ -187,7 +187,7 @@ public class Register extends AppCompatActivity {
                             firebaseUser.updateProfile(profileChangeRequest);
 
                             // create account date
-                            String strDate = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(new Date());
+                            String strDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
 
                             UserDetails readWriteUserDetails = new UserDetails( dob, gender, weight , height, strDate);
                             // Extracting User reference from database for "register User"
