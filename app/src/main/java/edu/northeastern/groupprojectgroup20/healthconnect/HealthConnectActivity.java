@@ -81,8 +81,8 @@ public class HealthConnectActivity extends AppCompatActivity {
 
         // Set Yesterday's start and end time
         ZonedDateTime now = ZonedDateTime.now();
-        ZonedDateTime startOfYesterday = now.minusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
-        ZonedDateTime endOfYesterday = now.minusDays(1).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+        ZonedDateTime startOfYesterday = now.withHour(0).withMinute(0).withSecond(0).withNano(0);
+        ZonedDateTime endOfYesterday = now.withHour(23).withMinute(59).withSecond(59).withNano(999999999);
 
         Instant startTime = startOfYesterday.toInstant();
         Instant endTime = endOfYesterday.toInstant();

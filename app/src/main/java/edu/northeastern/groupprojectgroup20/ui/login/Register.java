@@ -183,8 +183,6 @@ public class Register extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
-
-
                             UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
                             firebaseUser.updateProfile(profileChangeRequest);
 

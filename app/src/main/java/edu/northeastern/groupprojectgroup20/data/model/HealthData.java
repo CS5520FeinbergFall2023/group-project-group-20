@@ -1,22 +1,28 @@
-package edu.northeastern.groupprojectgroup20.healthconnect;
+package edu.northeastern.groupprojectgroup20.data.model;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
-public class HealtData {
+public class HealthData {
     private long steps;
     private double calories;
     private double exercise;
     private long sleep;
+    private String lastUpdateTime;
 
     private ZonedDateTime timeStamp;
+    public HealthData() {}
 
-    public HealtData(long steps, double calories, double exercise, long sleep, ZonedDateTime timeStamp) {
+    public HealthData(long steps, double calories, double exercise, long sleep, ZonedDateTime timeStamp) {
         this.steps = steps;
         this.calories = calories;
         this.exercise = exercise;
         this.sleep = sleep;
-        this.timeStamp = ZonedDateTime.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        this.lastUpdateTime = timeStamp.format(formatter);
     }
+
 
     public long getSteps() {
         return steps;
@@ -32,6 +38,10 @@ public class HealtData {
 
     public long getSleep() {
         return sleep;
+    }
+
+    public String getLastUpdateTime() {
+        return lastUpdateTime;
     }
 
     public void setSteps(long steps) {
