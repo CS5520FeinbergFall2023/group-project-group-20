@@ -65,7 +65,7 @@ public class HealthDataFetchWorker extends Worker {
 
     private void fetchHealthData(ZonedDateTime startTime, ZonedDateTime endTime) {
         //Fetch fitness data from health connect
-        HealthConnect healthConnect = new HealthConnect(getApplicationContext());
+        healthConnect = new HealthConnect(getApplicationContext());
         retrieveStepsData(startTime, endTime);
         retrieveCaloriesData(startTime, endTime);
         retrieveSleepData(startTime, endTime);
