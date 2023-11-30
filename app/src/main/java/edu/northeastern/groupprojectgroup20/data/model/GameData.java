@@ -40,11 +40,11 @@ public class GameData {
     }
 
     public int calculateAttributeFromSleep() {
-        int skillRecovery = 2; // 初始设定为2
+        int skillRecovery = 2;
 
-        if (sleep > 480) { // 如果睡眠时长大于480分钟
+        if (sleep > 480) {
             skillRecovery = 3;
-        } else if (sleep < 240) { // 如果睡眠时长小于240分钟
+        } else if (sleep < 240) {
             skillRecovery = 1;
         } else {
             skillRecovery = 2;
