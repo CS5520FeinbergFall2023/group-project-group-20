@@ -37,6 +37,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import edu.northeastern.groupprojectgroup20.MainActivity;
 import edu.northeastern.groupprojectgroup20.R;
@@ -188,8 +189,9 @@ public class Register extends AppCompatActivity {
 
                             // create account date
                             String strDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+                            TimeZone timeZone = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").getTimeZone();
 
-                            UserDetails readWriteUserDetails = new UserDetails( dob, gender, weight , height, strDate);
+                            UserDetails readWriteUserDetails = new UserDetails( dob, gender, weight , height, strDate,timeZone);
                             // Extracting User reference from database for "register User"
                             DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Register Users");
                             referenceProfile.child(firebaseUser.getUid())
