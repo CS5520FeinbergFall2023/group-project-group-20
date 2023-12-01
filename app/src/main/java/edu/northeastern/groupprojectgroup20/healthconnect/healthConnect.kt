@@ -200,19 +200,42 @@ class HealthConnect(private val context: Context) {
         }
     }
 
+//    fun readTotalSleepByTimeRange(
+//        startTime: Instant,
+//        endTime: Instant
+//    ): CompletableFuture<Duration> {
+//        return GlobalScope.future {
+//            val result = AggregateRequest(
+//                metrics = setOf(SleepSessionRecord.SLEEP_DURATION_TOTAL),
+//                timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+//            )
+//            val response = healthConnectClient.aggregate(result)
+//            response[SleepSessionRecord.SLEEP_DURATION_TOTAL]!!
+//        }
+//    }
+
     fun readTotalSleepByTimeRange(
         startTime: Instant,
         endTime: Instant
     ): CompletableFuture<Duration> {
         return GlobalScope.future {
-            val result = AggregateRequest(
-                metrics = setOf(SleepSessionRecord.SLEEP_DURATION_TOTAL),
-                timeRangeFilter = TimeRangeFilter.Companion.between(startTime, endTime)
+            val request = ReadRecordsRequest(
+                recordType = SleepSessionRecord::class,
+                timeRangeFilter = TimeRangeFilter.between(startTime, endTime)
             )
-            val response = healthConnectClient.aggregate(result)
-            response[SleepSessionRecord.SLEEP_DURATION_TOTAL]!!
+
+            val response = healthConnectClient.readRecords(request)
+            var totalSleepDuration = Duration.ZERO
+            response.records.forEach { record ->
+                if (record is SleepSessionRecord) {
+                    val duration = Duration.between(record.startTime, record.endTime)
+                    totalSleepDuration = totalSleepDuration.plus(duration)
+                }
+            }
+            totalSleepDuration
         }
     }
+
 
 
     //read all the exercise data given time range and return a list of ExerciseSessionRecord

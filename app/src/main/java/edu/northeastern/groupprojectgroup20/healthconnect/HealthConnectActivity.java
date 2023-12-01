@@ -196,9 +196,6 @@ public class HealthConnectActivity extends AppCompatActivity {
             for (TotalCaloriesBurnedRecord caloriesRecord : caloriesRecords) {
                 totalCaloriesCount += caloriesRecord.getEnergy().getCalories();
                 // log the calories data
-                Log.d("Calories", "Calories: " + caloriesRecord.getEnergy().getCalories());
-                System.out.println("Calories: " + caloriesRecord.getEnergy().getCalories());
-                System.out.println("nice");
             }
 
             final double finalTotalCaloriesCount = totalCaloriesCount / 1000;

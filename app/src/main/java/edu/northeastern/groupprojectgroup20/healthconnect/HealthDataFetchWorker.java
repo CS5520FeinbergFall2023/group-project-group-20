@@ -55,6 +55,8 @@ public class HealthDataFetchWorker extends Worker {
 
     @Override
     public Result doWork() {
+
+        resetWorkerState();
         // Add code to retrieve data from Health Connect
         // For example, readStepsByTimeRange(), readCaloriesByTimeRange(), etc.
 
@@ -78,6 +80,14 @@ public class HealthDataFetchWorker extends Worker {
         lastFetchTime = ZonedDateTime.now();
         // Indicate whether the work finished successfully with the Result
         return Result.success();
+    }
+
+    private void resetWorkerState() {
+        finalDailyStepsCount = 0;
+        finalDailyCaloriesBurned = 0;
+        finalDailyExerciseSession = 0;
+        finalDailySleepTime = 0;
+        // Reset any other relevant variables here
     }
 
     private void fetchHealthData(ZonedDateTime startTime, ZonedDateTime endTime) {
@@ -123,7 +133,7 @@ public class HealthDataFetchWorker extends Worker {
         String UserID = firebaseUser.getUid();
 
         ZonedDateTime now = ZonedDateTime.now();
-        Log.d("HealthDataFetchWorker", "fetchHealthData called");
+        Log.d("HealthDataFetchWorker", "fetchAccumulatedHealthData called");
 
 
         final String[] registerDate = new String[1];
@@ -175,46 +185,6 @@ public class HealthDataFetchWorker extends Worker {
             }
         });
 
-
-        //要加入時區的考量
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        LocalDateTime localDateTime = LocalDateTime.parse(registerDate[0], formatter);
-//        System.out.println(localDateTime);
-//        ZonedDateTime registerDateTime = localDateTime.atZone(ZoneId.systemDefault());
-//        System.out.println(registerDateTime);
-
-
-        // Wait for all the futures to complete
-        // Call the methods to retrieve fitness data
-//        CompletableFuture<Void> stepsFuture = retrieveTotalStepsData(registerDateTime, now);
-//        CompletableFuture<Void> caloriesFuture = retrieveTotalCaloriesData(registerDateTime, now);
-//        CompletableFuture<Void> sleepFuture = retrieveTotalSleepData(registerDateTime, now);
-//        CompletableFuture<Void> exerciseFuture = retrieveTotalExerciseSessionData(registerDateTime, now);
-//
-//        // Wait for all the futures to complete
-//        CompletableFuture.allOf(stepsFuture, caloriesFuture, sleepFuture, exerciseFuture)
-//                .thenRun(() -> {
-//
-//                    // After all futures complete, update the health data
-//                    /**
-//                     * 這邊要改成GameData
-//                     */
-//                    GameData gameDataToUpdate = new GameData(finalTotalStepsCount,
-//                            finalTotalCaloriesBurned, finalTotalExerciseSession, finalTotalSleepTime, ZonedDateTime.now());
-//
-//                    if (gameDataToUpdate != null) {
-//                        updateGameDataToFirebase(gameDataToUpdate);
-//                    } else {
-//                        Log.e("HealthDataFetchWorker", "healthDataToUpdate is null");
-//                    }
-//                }).join();  // Join here to block the worker thread until all futures are complete
-//        //log all the data
-//        Log.d("HealthDataFetchWorker", "fetchHealthData called");
-//        Log.d("HealthDataFetchWorker", "Steps: " + finalDailyStepsCount);
-//        Log.d("HealthDataFetchWorker", "Calories: " + finalDailyCaloriesBurned);
-//        Log.d("HealthDataFetchWorker", "Sleep: " + finalDailySleepTime);
-//        Log.d("HealthDataFetchWorker", "Exercise: " + finalDailyExerciseSession);
-
     }
 
     private void updateHealthDataToFirebase(HealthData healthDataToUpdate) {
@@ -237,6 +207,7 @@ public class HealthDataFetchWorker extends Worker {
                 databaseRef.child("History").child(UserID).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Log.d("HealthDataFetchWorker", "updateHealthDataToFirebase called");
 //                        if (snapshot.exists()) {
 //                            // data exists, add the newest data to the existing data
 //                            HealthData existingData = snapshot.getValue(HealthData.class);
@@ -284,6 +255,7 @@ public class HealthDataFetchWorker extends Worker {
         databaseRef.child("Game Data").child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("HealthDataFetchWorker", "updateGameDataToFirebase called");
 //                if (snapshot.exists()) {
 //                    //If Game data exists, add the newest data to the existing data
 //                    GameData existingData = snapshot.getValue(GameData.class);
@@ -367,7 +339,8 @@ public class HealthDataFetchWorker extends Worker {
                 }
             } catch (Exception e) {
                 // Handle any other exceptions that might occur
-                System.err.println("Error in retrieveStepsData: " + e.getMessage());
+                throw new RuntimeException("Error in retrieveStepsData: " + e.getMessage());
+
             }
         });
     }
@@ -396,7 +369,7 @@ public class HealthDataFetchWorker extends Worker {
                     for (TotalCaloriesBurnedRecord caloriesRecord : caloriesRecords) {
                         totalCaloriesCount += caloriesRecord.getEnergy().getCalories();
                         // log the calories data
-                        Log.d("Calories", "Calories: " + caloriesRecord.getEnergy().getCalories());
+//                        Log.d("Calories", "Calories: " + caloriesRecord.getEnergy().getCalories());
                     }
 
                     finalDailyCaloriesBurned = totalCaloriesCount / 1000;
@@ -526,7 +499,7 @@ public class HealthDataFetchWorker extends Worker {
                     for (TotalCaloriesBurnedRecord caloriesRecord : caloriesRecords) {
                         totalCaloriesCount += caloriesRecord.getEnergy().getCalories();
                         // log the calories data
-                        Log.d("Calories", "Calories: " + caloriesRecord.getEnergy().getCalories());
+//                        Log.d("Calories", "Calories: " + caloriesRecord.getEnergy().getCalories());
                     }
 
                     finalTotalCaloriesBurned = totalCaloriesCount / 1000;

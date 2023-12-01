@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
 
     <application
@@ -109,6 +110,15 @@
 
             <!-- Intent filters or other properties for the activity -->
         </activity>
+
+        <service
+            android:name=".healthconnect.HealthDataService"
+            android:foregroundServiceType="dataSync">
+            <!-- Other service settings... -->
+        </service>
+
     </application>
+
+
 
 </manifest>

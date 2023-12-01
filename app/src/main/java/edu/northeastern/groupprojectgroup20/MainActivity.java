@@ -36,6 +36,7 @@ import java.util.Date;
 
 import edu.northeastern.groupprojectgroup20.databinding.ActivityMainBinding;
 import edu.northeastern.groupprojectgroup20.healthconnect.HealthConnectActivity;
+import edu.northeastern.groupprojectgroup20.healthconnect.HealthDataService;
 import edu.northeastern.groupprojectgroup20.ui.login.Login;
 
 public class MainActivity extends AppCompatActivity {
@@ -138,14 +139,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Intent serviceIntent = new Intent(this, HealthDataService.class);
+        startService(serviceIntent);
+
         unityLauncher = findViewById(R.id.unityLauncher);
 //        unityLauncher.setOnClickListener(v -> {
 //            Intent intent = new Intent(MainActivity.this, UnityPlayerActivity.class);
 //            startActivity(intent);
 //        });
-
-
-
 
     }
 
