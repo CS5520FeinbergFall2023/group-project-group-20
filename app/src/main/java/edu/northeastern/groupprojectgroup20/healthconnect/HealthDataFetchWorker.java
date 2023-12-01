@@ -28,6 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import edu.northeastern.groupprojectgroup20.data.model.GameData;
 import edu.northeastern.groupprojectgroup20.data.model.HealthData;
 
 public class HealthDataFetchWorker extends Worker {
@@ -38,6 +39,7 @@ public class HealthDataFetchWorker extends Worker {
     private long finalDailySleepTime, finalTotalSleepTime;
     private double finalDailyExerciseSession, finalTotalExerciseSession;
     private HealthData healthDataToUpdate;
+    private GameData gameDataToUpdate;
     private DatabaseReference databaseRef;
 
     public HealthDataFetchWorker(
@@ -71,6 +73,7 @@ public class HealthDataFetchWorker extends Worker {
         ZonedDateTime endTime = now.withHour(23).withMinute(59).withSecond(59).withNano(999999999);
 
         fetchHealthData(startTime, endTime);
+        fetchAccumulatedHealthData();
 
         lastFetchTime = ZonedDateTime.now();
         // Indicate whether the work finished successfully with the Result
@@ -121,56 +124,101 @@ public class HealthDataFetchWorker extends Worker {
 
         ZonedDateTime now = ZonedDateTime.now();
         Log.d("HealthDataFetchWorker", "fetchHealthData called");
-        String registerDate = databaseRef.child("Register Users").child(UserID).child("registerDate").toString();
-        Log.d("HealthDataFetchWorker", "registerDate: " + registerDate);
+
+
+        final String[] registerDate = new String[1];
+        databaseRef.child("Register Users").child(UserID).child("registerDate").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                registerDate[0] = dataSnapshot.getValue(String.class);
+                // Use registerDate here...
+                Log.d("HealthDataFetchWorker", "registerDate: " + registerDate[0]);
+
+                if (registerDate[0] != null) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    LocalDateTime localDateTime = LocalDateTime.parse(registerDate[0], formatter);
+                    ZonedDateTime registerDateTime = localDateTime.atZone(ZoneId.systemDefault());
+
+                    CompletableFuture<Void> stepsFuture = retrieveTotalStepsData(registerDateTime, now);
+                    CompletableFuture<Void> caloriesFuture = retrieveTotalCaloriesData(registerDateTime, now);
+                    CompletableFuture<Void> sleepFuture = retrieveTotalSleepData(registerDateTime, now);
+                    CompletableFuture<Void> exerciseFuture = retrieveTotalExerciseSessionData(registerDateTime, now);
+
+                    // Wait for all the futures to complete
+                    CompletableFuture.allOf(stepsFuture, caloriesFuture, sleepFuture, exerciseFuture)
+                            .thenRun(() -> {
+
+                                // After all futures complete, update the health data
+                                GameData gameDataToUpdate = new GameData(finalTotalStepsCount,
+                                        finalTotalCaloriesBurned, finalTotalExerciseSession, finalTotalSleepTime, ZonedDateTime.now());
+
+                                if (gameDataToUpdate != null) {
+                                    updateGameDataToFirebase(gameDataToUpdate);
+                                } else {
+                                    Log.e("HealthDataFetchWorker", "healthDataToUpdate is null");
+                                }
+                            }).join();  // Join here to block the worker thread until all futures are complete
+                    //log all the data
+                    Log.d("HealthDataFetchWorker", "fetchHealthData called");
+                    Log.d("HealthDataFetchWorker", "Steps: " + finalDailyStepsCount);
+                    Log.d("HealthDataFetchWorker", "Calories: " + finalDailyCaloriesBurned);
+                    Log.d("HealthDataFetchWorker", "Sleep: " + finalDailySleepTime);
+                    Log.d("HealthDataFetchWorker", "Exercise: " + finalDailyExerciseSession);
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error here...
+            }
+        });
 
 
         //要加入時區的考量
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime localDateTime = LocalDateTime.parse(registerDate, formatter);
-        System.out.println(localDateTime);
-        ZonedDateTime registerDateTime = localDateTime.atZone(ZoneId.systemDefault());
-        System.out.println(registerDateTime);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        LocalDateTime localDateTime = LocalDateTime.parse(registerDate[0], formatter);
+//        System.out.println(localDateTime);
+//        ZonedDateTime registerDateTime = localDateTime.atZone(ZoneId.systemDefault());
+//        System.out.println(registerDateTime);
 
 
         // Wait for all the futures to complete
         // Call the methods to retrieve fitness data
-        CompletableFuture<Void> stepsFuture = retrieveTotalStepsData(registerDateTime, now);
-        CompletableFuture<Void> caloriesFuture = retrieveTotalCaloriesData(registerDateTime, now);
-        CompletableFuture<Void> sleepFuture = retrieveTotalSleepData(registerDateTime, now);
-        CompletableFuture<Void> exerciseFuture = retrieveTotalExerciseSessionData(registerDateTime, now);
-
-        // Wait for all the futures to complete
-        CompletableFuture.allOf(stepsFuture, caloriesFuture, sleepFuture, exerciseFuture)
-                .thenRun(() -> {
-
-                    // After all futures complete, update the health data
-                    /**
-                     * 這邊要改成GameData
-                     */
-                    healthDataToUpdate = new HealthData(finalTotalStepsCount,
-                            finalTotalCaloriesBurned, finalTotalExerciseSession, finalTotalSleepTime, ZonedDateTime.now());
-
-                    if (healthDataToUpdate != null) {
-                        updateHealthDataToFirebase(healthDataToUpdate);
-                    } else {
-                        Log.e("HealthDataFetchWorker", "healthDataToUpdate is null");
-                    }
-                }).join();  // Join here to block the worker thread until all futures are complete
-        //log all the data
-        Log.d("HealthDataFetchWorker", "fetchHealthData called");
-        Log.d("HealthDataFetchWorker", "Steps: " + finalDailyStepsCount);
-        Log.d("HealthDataFetchWorker", "Calories: " + finalDailyCaloriesBurned);
-        Log.d("HealthDataFetchWorker", "Sleep: " + finalDailySleepTime);
-        Log.d("HealthDataFetchWorker", "Exercise: " + finalDailyExerciseSession);
+//        CompletableFuture<Void> stepsFuture = retrieveTotalStepsData(registerDateTime, now);
+//        CompletableFuture<Void> caloriesFuture = retrieveTotalCaloriesData(registerDateTime, now);
+//        CompletableFuture<Void> sleepFuture = retrieveTotalSleepData(registerDateTime, now);
+//        CompletableFuture<Void> exerciseFuture = retrieveTotalExerciseSessionData(registerDateTime, now);
+//
+//        // Wait for all the futures to complete
+//        CompletableFuture.allOf(stepsFuture, caloriesFuture, sleepFuture, exerciseFuture)
+//                .thenRun(() -> {
+//
+//                    // After all futures complete, update the health data
+//                    /**
+//                     * 這邊要改成GameData
+//                     */
+//                    GameData gameDataToUpdate = new GameData(finalTotalStepsCount,
+//                            finalTotalCaloriesBurned, finalTotalExerciseSession, finalTotalSleepTime, ZonedDateTime.now());
+//
+//                    if (gameDataToUpdate != null) {
+//                        updateGameDataToFirebase(gameDataToUpdate);
+//                    } else {
+//                        Log.e("HealthDataFetchWorker", "healthDataToUpdate is null");
+//                    }
+//                }).join();  // Join here to block the worker thread until all futures are complete
+//        //log all the data
+//        Log.d("HealthDataFetchWorker", "fetchHealthData called");
+//        Log.d("HealthDataFetchWorker", "Steps: " + finalDailyStepsCount);
+//        Log.d("HealthDataFetchWorker", "Calories: " + finalDailyCaloriesBurned);
+//        Log.d("HealthDataFetchWorker", "Sleep: " + finalDailySleepTime);
+//        Log.d("HealthDataFetchWorker", "Exercise: " + finalDailyExerciseSession);
 
     }
 
     private void updateHealthDataToFirebase(HealthData healthDataToUpdate) {
         //Update fitness data in the firebase database
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-//        String date = healthDataToUpdate.getTimeStamp().format(formatter);
-
         String date = healthDataToUpdate.getLastUpdateTime();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -189,19 +237,20 @@ public class HealthDataFetchWorker extends Worker {
                 databaseRef.child("History").child(UserID).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            // data exists, add the newest data to the existing data
-                            HealthData existingData = snapshot.getValue(HealthData.class);
-                            HealthData newData = new HealthData(existingData.getSteps() + healthDataToUpdate.getSteps(),
-                                    existingData.getCalories() + healthDataToUpdate.getCalories(),
-                                    existingData.getExercise() + healthDataToUpdate.getExercise(),
-                                    existingData.getSleep() + healthDataToUpdate.getSleep(),
-                                    ZonedDateTime.now());
-                            databaseRef.child("History").child(UserID).child(date).setValue(healthDataToUpdate);
-                        } else {
-                            // data doesn't exist, do something else
-                            databaseRef.child("History").child(UserID).child(date).setValue(healthDataToUpdate);
-                        }
+//                        if (snapshot.exists()) {
+//                            // data exists, add the newest data to the existing data
+//                            HealthData existingData = snapshot.getValue(HealthData.class);
+//                            HealthData newData = new HealthData(existingData.getSteps() + healthDataToUpdate.getSteps(),
+//                                    existingData.getCalories() + healthDataToUpdate.getCalories(),
+//                                    existingData.getExercise() + healthDataToUpdate.getExercise(),
+//                                    existingData.getSleep() + healthDataToUpdate.getSleep(),
+//                                    ZonedDateTime.now());
+//                            databaseRef.child("History").child(UserID).child(date).setValue(newData);
+//                        } else {
+//                            // data doesn't exist, do something else
+//                            databaseRef.child("History").child(UserID).child(date).setValue(healthDataToUpdate);
+//                        }
+                        databaseRef.child("History").child(UserID).child(date).setValue(healthDataToUpdate);
                     }
 
                     @Override
@@ -220,12 +269,12 @@ public class HealthDataFetchWorker extends Worker {
 
     // Update Game Data to the firebase database
 
-    private void updateGameDataToFirebase(HealthData healthDataToUpdate) {
+    private void updateGameDataToFirebase(GameData gameDataToUpdate) {
         //Update fitness data in the firebase database
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 //        String date = healthDataToUpdate.getTimeStamp().format(formatter);
 
-        String date = healthDataToUpdate.getLastUpdateTime();
+        String date = gameDataToUpdate.getLastUpdateTime();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
@@ -235,36 +284,53 @@ public class HealthDataFetchWorker extends Worker {
         databaseRef.child("Game Data").child(UserID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()) {
-                    // UserID doesn't exist under History, create a new child with UserID
-                    databaseRef.child("Game Data").child(UserID).setValue("");
-                }
-                // Now UserID exists under History, proceed to upload health data
-                databaseRef.child("Game Data").child(UserID).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            // data exists, add the newest data to the existing data
-                            // 這邊要改成gameData
-                            HealthData existingData = snapshot.getValue(HealthData.class);
-                            HealthData newData = new HealthData(existingData.getSteps() + healthDataToUpdate.getSteps(),
-                                    existingData.getCalories() + healthDataToUpdate.getCalories(),
-                                    existingData.getExercise() + healthDataToUpdate.getExercise(),
-                                    existingData.getSleep() + healthDataToUpdate.getSleep(),
-                                    ZonedDateTime.now());
-                            databaseRef.child("Game Data").child(UserID).child(date).setValue(healthDataToUpdate);
-                        } else {
-                            // data doesn't exist, do something else
-                            databaseRef.child("Game Data").child(UserID).child(date).setValue(healthDataToUpdate);
-                        }
-                    }
+//                if (snapshot.exists()) {
+//                    //If Game data exists, add the newest data to the existing data
+//                    GameData existingData = snapshot.getValue(GameData.class);
+//                    GameData newData = new GameData(existingData.getTotalAccumulatedSteps() + gameDataToUpdate.getTotalAccumulatedSteps(),
+//                            existingData.getTotalAccumulatedCalories() + gameDataToUpdate.getTotalAccumulatedCalories(),
+//                            existingData.getTotalAccumulatedExercise() + gameDataToUpdate.getTotalAccumulatedExercise(),
+//                            existingData.getTotalAccumulatedSleep() + gameDataToUpdate.getTotalAccumulatedSleep(),
+//                            ZonedDateTime.now());
+//                    databaseRef.child("Game Data").child(UserID).setValue(newData);
+//                    Log.d("HealthDataFetchWorker", "updateGameDataToFirebase called, update existing data");
+//                } else {
+//                    // If data doesn't exist, upload the newest data
+//                    databaseRef.child("Game Data").child(UserID).setValue(gameDataToUpdate);
+//                    Log.d("HealthDataFetchWorker", "updateGameDataToFirebase called, upload the first data");
+//
+//                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.d("HealthDataFetchWorker", "updateHealthDataToFirebase failed");
-                    }
-                });
+                databaseRef.child("Game Data").child(UserID).setValue(gameDataToUpdate);
             }
+            // Now UserID exists under History, proceed to upload health data
+//                databaseRef.child("Game Data").child(UserID).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        if (snapshot.exists()) {
+//                            //If Game data exists, add the newest data to the existing data
+//                            GameData existingData = snapshot.getValue(GameData.class);
+//                            GameData newData = new GameData(existingData.getTotalAccumulatedSteps() + gameDataToUpdate.getTotalAccumulatedSteps(),
+//                                    existingData.getTotalAccumulatedCalories() + gameDataToUpdate.getTotalAccumulatedCalories(),
+//                                    existingData.getTotalAccumulatedExercise() + gameDataToUpdate.getTotalAccumulatedExercise(),
+//                                    existingData.getTotalAccumulatedSleep() + gameDataToUpdate.getTotalAccumulatedSleep(),
+//                                    ZonedDateTime.now());
+//                            databaseRef.child("Game Data").child(UserID).child(date).setValue(newData);
+//                            Log.d("HealthDataFetchWorker", "updateGameDataToFirebase called, update existing data");
+//                        } else {
+//                            // If data doesn't exist, upload the newest data
+//                            databaseRef.child("Game Data").child(UserID).child(date).setValue(gameDataToUpdate);
+//                            Log.d("HealthDataFetchWorker", "updateGameDataToFirebase called, upload the first data");
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//                        Log.d("HealthDataFetchWorker", "updateGameDataToFirebase failed");
+//                    }
+//                });
+//            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -275,6 +341,7 @@ public class HealthDataFetchWorker extends Worker {
 
     /**
      * Retrieve steps data from Health Connect
+     *
      * @param startTime
      * @param endTime
      * @return
@@ -307,6 +374,7 @@ public class HealthDataFetchWorker extends Worker {
 
     /**
      * Retrieve calories data from Health Connect
+     *
      * @param startTime
      * @param endTime
      * @return
@@ -342,6 +410,7 @@ public class HealthDataFetchWorker extends Worker {
 
     /**
      * Retrieve sleep data from Health Connect
+     *
      * @param startTime
      * @param endTime
      * @return
@@ -367,6 +436,7 @@ public class HealthDataFetchWorker extends Worker {
 
     /**
      * Retrieve exercise session data from Health Connect
+     *
      * @param startTime
      * @param endTime
      * @return
@@ -402,6 +472,7 @@ public class HealthDataFetchWorker extends Worker {
 
     /**
      * Retrieve Accumulated steps data from Health Connect
+     *
      * @param startTime
      * @param endTime
      * @return
@@ -433,6 +504,7 @@ public class HealthDataFetchWorker extends Worker {
 
     /**
      * Retrieve Accumulated calories data from Health Connect
+     *
      * @param startTime
      * @param endTime
      * @return
@@ -468,6 +540,7 @@ public class HealthDataFetchWorker extends Worker {
 
     /**
      * Retrieve Accumulated sleep data from Health Connect
+     *
      * @param startTime
      * @param endTime
      * @return
@@ -493,6 +566,7 @@ public class HealthDataFetchWorker extends Worker {
 
     /**
      * Retrieve Accumulated exercise session data from Health Connect
+     *
      * @param startTime
      * @param endTime
      * @return

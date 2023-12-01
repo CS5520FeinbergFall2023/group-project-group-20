@@ -9,8 +9,8 @@ public class HealthData {
     private double exercise;
     private long sleep;
     private String lastUpdateTime;
+    private String timeStamp;
 
-    private ZonedDateTime timeStamp;
     public HealthData() {}
 
     public HealthData(long steps, double calories, double exercise, long sleep, ZonedDateTime timeStamp) {
@@ -19,8 +19,12 @@ public class HealthData {
         this.exercise = exercise;
         this.sleep = sleep;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter timeStampFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         this.lastUpdateTime = timeStamp.format(formatter);
+        this.timeStamp = timeStamp.format(timeStampFormatter);
+
     }
 
 
@@ -60,11 +64,8 @@ public class HealthData {
         this.sleep = sleep;
     }
 
-    public ZonedDateTime getTimeStamp() {
+    public String getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(ZonedDateTime timeStamp) {
-        this.timeStamp = timeStamp;
-    }
 }

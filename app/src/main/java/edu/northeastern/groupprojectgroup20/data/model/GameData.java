@@ -1,5 +1,8 @@
 package edu.northeastern.groupprojectgroup20.data.model;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class GameData {
     private long TotalAccumulatedSteps;
     private double TotalAccumulatedCalories;
@@ -9,8 +12,11 @@ public class GameData {
     private double HP;
     private double ATK;
     private double DEF;
+    private String timeStamp;
 
-    public GameData(long steps, double calories, double exercise, long sleep, String lastUpdateTime) {
+    public GameData() {}
+
+    public GameData(long steps, double calories, double exercise, long sleep, ZonedDateTime lastUpdateTime) {
         this.TotalAccumulatedSteps = steps;
         this.TotalAccumulatedCalories = calories;
         this.TotalAccumulatedExercise = exercise;
@@ -18,7 +24,43 @@ public class GameData {
         this.HP = calculateHPFromSteps();
         this.ATK = calculateATKFromCalories();
         this.DEF = calculateDEFfromExercise();
-        this.lastUpdateTime = lastUpdateTime;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        this.lastUpdateTime = lastUpdateTime.format(formatter);
+        DateTimeFormatter timeStampFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        this.timeStamp = lastUpdateTime.format(timeStampFormatter);
+    }
+
+    public void setTotalAccumulatedExercise(double totalAccumulatedExercise) {
+        TotalAccumulatedExercise = totalAccumulatedExercise;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public double getHP() {
+        return HP;
+    }
+
+    public void setHP(double HP) {
+        this.HP = HP;
+    }
+
+    public double getATK() {
+        return ATK;
+    }
+
+    public void setATK(double ATK) {
+        this.ATK = ATK;
+    }
+
+    public double getDEF() {
+        return DEF;
+    }
+
+    public void setDEF(double DEF) {
+        this.DEF = DEF;
     }
 
     //HP

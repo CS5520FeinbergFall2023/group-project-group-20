@@ -104,6 +104,7 @@
 
         <activity
             android:name=".healthconnect.HealthConnectActivity"
+            android:theme="@style/Theme.AppCompat.Light"
             android:label="healt_connect" >
 
             <!-- Intent filters or other properties for the activity -->
