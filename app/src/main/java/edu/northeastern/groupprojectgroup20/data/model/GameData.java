@@ -1,50 +1,61 @@
 package edu.northeastern.groupprojectgroup20.data.model;
 
 public class GameData {
-    private long steps;
-    private double calories;
-    private double exercise;
-    private long sleep;
+    private long TotalAccumulatedSteps;
+    private double TotalAccumulatedCalories;
+    private double TotalAccumulatedExercise;
+    private long TotalAccumulatedSleep;
     private String lastUpdateTime;
+    private double HP;
+    private double ATK;
+    private double DEF;
 
     public GameData(long steps, double calories, double exercise, long sleep, String lastUpdateTime) {
-        this.steps = steps;
-        this.calories = calories;
-        this.exercise = exercise;
-        this.sleep = sleep;
+        this.TotalAccumulatedSteps = steps;
+        this.TotalAccumulatedCalories = calories;
+        this.TotalAccumulatedExercise = exercise;
+        this.TotalAccumulatedSleep = sleep;
+        this.HP = calculateHPFromSteps();
+        this.ATK = calculateATKFromCalories();
+        this.DEF = calculateDEFfromExercise();
         this.lastUpdateTime = lastUpdateTime;
     }
 
     //HP
-    public int calculateAttributeFromSteps() {
-        return (int)(steps / 100);
+    public double calculateHPFromSteps() {
+        double initialHP = 300;
+        return initialHP + TotalAccumulatedSteps / 100;
     }
 
     //ATK
-    public int calculateAttributeFromCalories() {
-        return (int)(calories * 1.5);
+    public double calculateATKFromCalories() {
+        double initialATK = 100;
+        return initialATK + TotalAccumulatedCalories * 0.15;
     }
 
     //DEF
-    public int calculateAttributeFromExercise() {
-        int DEFValue = 0;
-        if (exercise <= 60) {
-            DEFValue = (int)(exercise * 1.2);
-        } else if (60 < exercise && exercise <300) {
-            DEFValue = (int)((exercise - 60) * 0.3) + 72;
+    public double calculateDEFfromExercise() {
+        double initialDEF = 100;
+
+        double DEFValue = 0;
+        if (TotalAccumulatedExercise <= 60) {
+            DEFValue = TotalAccumulatedExercise * 1.2;
+        } else if (60 < TotalAccumulatedExercise && TotalAccumulatedExercise <300) {
+            DEFValue = (TotalAccumulatedExercise - 60) * 0.3 + 72;
         }
         else {
             DEFValue = 144;
         }
-        return DEFValue;
+        return initialDEF + DEFValue;
     }
 
-    public int calculateAttributeFromSleep() {
+    // Recovery
+    public int calculateRecoveryFromSleep() {
         int skillRecovery = 2;
 
-        if (sleep > 480) {
+        if (TotalAccumulatedSleep > 480) {
             skillRecovery = 3;
-        } else if (sleep < 240) {
+        } else if (TotalAccumulatedSleep < 240) {
             skillRecovery = 1;
         } else {
             skillRecovery = 2;
@@ -54,36 +65,36 @@ public class GameData {
         return skillRecovery;
     }
 
-    public long getSteps() {
-        return steps;
+    public long getTotalAccumulatedSteps() {
+        return TotalAccumulatedSteps;
     }
 
-    public void setSteps(long steps) {
-        this.steps = steps;
+    public void setTotalAccumulatedSteps(long steps) {
+        this.TotalAccumulatedSteps = steps;
     }
 
-    public double getCalories() {
-        return calories;
+    public double getTotalAccumulatedCalories() {
+        return TotalAccumulatedCalories;
     }
 
-    public void setCalories(double calories) {
-        this.calories = calories;
+    public void setTotalAccumulatedCalories(double totalAccumulatedcalories) {
+        this.TotalAccumulatedCalories = totalAccumulatedcalories;
     }
 
-    public double getExercise() {
-        return exercise;
+    public double getTotalAccumulatedExercise() {
+        return TotalAccumulatedExercise;
     }
 
     public void setExercise(double exercise) {
-        this.exercise = exercise;
+        this.TotalAccumulatedExercise = exercise;
     }
 
-    public long getSleep() {
-        return sleep;
+    public long getTotalAccumulatedSleep() {
+        return TotalAccumulatedSleep;
     }
 
-    public void setSleep(long sleep) {
-        this.sleep = sleep;
+    public void setTotalAccumulatedSleep(long totalAccumulatedSleep) {
+        this.TotalAccumulatedSleep = totalAccumulatedSleep;
     }
 
     public String getLastUpdateTime() {
