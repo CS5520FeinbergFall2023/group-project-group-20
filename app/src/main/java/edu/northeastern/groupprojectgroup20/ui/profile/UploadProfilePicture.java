@@ -48,7 +48,7 @@ public class UploadProfilePicture extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_profile_picture);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Upload profile photo");
+      //  Objects.requireNonNull(getSupportActionBar()).setTitle("Upload profile photo");
 
         authProfile = FirebaseAuth.getInstance();
         firebaseUser = authProfile.getCurrentUser();
