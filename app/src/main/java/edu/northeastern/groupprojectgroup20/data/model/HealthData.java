@@ -13,6 +13,7 @@ public class HealthData {
 
     public HealthData() {}
 
+    // constructor for testing
     public HealthData(long steps, double calories, double exercise, long sleep, ZonedDateTime timeStamp) {
         this.steps = steps;
         this.calories = calories;
