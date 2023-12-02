@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="100dp"
+            android:textSize="16sp"
+            android:layout_height="30dp"
+            android:textAlignment="center"
+            android:id="@+id/history_date"
+            android:text="dd/mm/yyy"
+            />
+
+        <TextView
+            android:id="@id/history_calories"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:text="calories"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/history_exercise"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:text="exercise"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/history_sleep"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:text="sleep"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/history_steps"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:text="steps"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

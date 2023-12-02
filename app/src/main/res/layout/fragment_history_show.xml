@@ -19,4 +19,70 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/history_date1"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:text="dd/mm/yyy"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:text="calories"
+            android:id="@+id/history_calories1"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/history_exercise1"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:text="exercise"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/history_sleep1"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:text="sleep"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/history_steps1"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:text="steps"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/history_recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:listitem="@layout/history_list_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
