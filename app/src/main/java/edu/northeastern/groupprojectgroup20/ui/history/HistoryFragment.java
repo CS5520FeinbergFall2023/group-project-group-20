@@ -3,6 +3,7 @@ package edu.northeastern.groupprojectgroup20.ui.history;
 import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,6 +92,7 @@ public class HistoryFragment extends Fragment {
             data.add(new HistoryData(lastUpdateTime, calories, exercise, sleep , steps));
 
         }
+
         mHistoryListAdapter.setListData(data);
     }
 

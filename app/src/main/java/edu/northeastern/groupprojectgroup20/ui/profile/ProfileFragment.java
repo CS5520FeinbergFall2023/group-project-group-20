@@ -82,6 +82,10 @@ public class ProfileFragment extends Fragment {
 
         firebaseProfile = FirebaseAuth.getInstance();
 
+        if (savedInstanceState != null ){
+
+        }
+
         FirebaseUser firebaseUser = firebaseProfile.getCurrentUser();
         if (firebaseUser == null) {
             Toast.makeText(getActivity(), "something went wrong!!!", Toast.LENGTH_LONG).show();
