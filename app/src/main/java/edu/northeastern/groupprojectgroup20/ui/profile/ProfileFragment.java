@@ -2,6 +2,7 @@ package edu.northeastern.groupprojectgroup20.ui.profile;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -33,10 +35,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
+
 import edu.northeastern.groupprojectgroup20.MainActivity;
 import edu.northeastern.groupprojectgroup20.R;
 import edu.northeastern.groupprojectgroup20.data.model.UserDetails;
 import edu.northeastern.groupprojectgroup20.databinding.FragmentProfileBinding;
+import edu.northeastern.groupprojectgroup20.ui.login.Register;
 
 public class ProfileFragment extends Fragment {
 
@@ -58,6 +63,7 @@ public class ProfileFragment extends Fragment {
     Button editContent, submitChange, conceal;
 
    SwipeRefreshLayout swipeProfile;
+    DatePickerDialog picker;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -93,21 +99,6 @@ public class ProfileFragment extends Fragment {
 
         firebaseProfile = FirebaseAuth.getInstance();
 
-        if (savedInstanceState != null ){
-//            userGender = savedInstanceState.get("gender").toString();
-//            userDob = savedInstanceState.get("dob").toString();
-//            userHeight = savedInstanceState.get("height").toString();
-//            userWeight =savedInstanceState.get("weight").toString();
-//            textView_show_mail.setText(userEmail);
-//            textView_profile_dob.setText(userDob);
-//            textView_profile_alias_name.setText(alis_name);
-//            textView_profile_gender.setText(userGender);
-//            textView_profile_weight.setText(userWeight);
-//            textView_profile_height.setText(userHeight);
-            Log.e(TAG, savedInstanceState.toString());
-
-        }
-
         FirebaseUser firebaseUser = firebaseProfile.getCurrentUser();
         if (firebaseUser == null) {
             Toast.makeText(getActivity(), "something went wrong!!!", Toast.LENGTH_LONG).show();
@@ -115,6 +106,24 @@ public class ProfileFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             showUserProfile(firebaseUser);
         }
+        textView_profile_dob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+
+                // Date picker
+                picker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        textView_profile_dob.setText(dayOfMonth+"/"+(month)+"/"+year);
+                    }
+                }, year,month, day);
+                picker.show();
+            }
+        });
 
         editContent.setOnClickListener(new View.OnClickListener() {
             @Override
