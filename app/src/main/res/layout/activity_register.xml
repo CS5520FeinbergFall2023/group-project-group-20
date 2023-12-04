@@ -76,7 +76,7 @@
             android:id="@+id/register_full_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your full name"
+            android:hint="Enter your alias name"
             tools:layout_editor_absoluteX="4dp" />
     </com.google.android.material.textfield.TextInputLayout>
 

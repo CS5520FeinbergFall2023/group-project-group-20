@@ -80,7 +80,7 @@ public class Register extends AppCompatActivity {
         editTextDob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar calendar = Calendar.getInstance();
+                 Calendar calendar = Calendar.getInstance();
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 int month = calendar.get(Calendar.MONTH);
                 int year = calendar.get(Calendar.YEAR);
