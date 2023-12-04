@@ -45,8 +45,12 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public void onBindViewHolder(@NonNull Myholder holder, int position) {
         // bind data
         HistoryData healthData = mdataList.get(position);
-
-        holder.textView_history_date.setText(healthData.getLastUpdateTime());
+        String date = healthData.getLastUpdateTime();
+        String year = date.substring(0,4) ;
+        String month = date.substring(4,6);
+        String day = date.substring(6,8);
+        String newDate = day + "/" + month + "/" + year;
+        holder.textView_history_date.setText(newDate);
         holder.textView_history_calories.setText(String.valueOf( healthData.getCalories()));
         holder.textView_history_exercise.setText(String.valueOf(healthData.getExercise()));
         holder.textView_history_sleep.setText(String.valueOf(healthData.getSleep()));

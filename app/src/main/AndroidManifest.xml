@@ -36,6 +36,7 @@
             android:label="@string/title_activity_role_data_cal"
             android:theme="@style/Theme.Material3.Light" />
         <activity
+            android:theme="@style/Theme.AppCompat.Light"
             android:name=".ui.profile.UploadProfilePicture"
             android:exported="false" />
         <activity

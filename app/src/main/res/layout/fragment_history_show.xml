@@ -35,12 +35,12 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/history_calories1"
             android:layout_width="70dp"
             android:layout_height="30dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="5dp"
             android:singleLine="true"
             android:text="calories"
-            android:id="@+id/history_calories1"
             android:textAlignment="center"
             android:textSize="16sp" />
 
@@ -48,7 +48,7 @@
             android:id="@+id/history_exercise1"
             android:layout_width="70dp"
             android:layout_height="30dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="5dp"
             android:singleLine="true"
             android:text="exercise"
             android:textAlignment="center"
@@ -56,9 +56,9 @@
 
         <TextView
             android:id="@+id/history_sleep1"
-            android:layout_width="70dp"
+            android:layout_width="50dp"
             android:layout_height="30dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="5dp"
             android:singleLine="true"
             android:text="sleep"
             android:textAlignment="center"
@@ -66,7 +66,7 @@
 
         <TextView
             android:id="@+id/history_steps1"
-            android:layout_width="70dp"
+            android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:singleLine="true"
@@ -78,11 +78,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/history_recycle_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:listitem="@layout/history_list_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
