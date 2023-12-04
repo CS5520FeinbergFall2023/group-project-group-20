@@ -32,6 +32,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 
 import edu.northeastern.groupprojectgroup20.databinding.ActivityMainBinding;
@@ -149,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
 //            startActivity(intent);
 //        });
 
+        ImageView randomImageView = findViewById(R.id.randomImageView);
+        int[] imageIds = {R.drawable.male, R.drawable.female};
+        int randomImageId = imageIds[new Random().nextInt(imageIds.length)];
+        randomImageView.setImageResource(randomImageId);
     }
 
     @Override

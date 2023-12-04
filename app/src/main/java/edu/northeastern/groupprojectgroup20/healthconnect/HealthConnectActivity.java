@@ -11,6 +11,8 @@ import android.health.connect.ReadRecordsRequest;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -64,6 +66,23 @@ public class HealthConnectActivity extends AppCompatActivity {
                     MY_PERMISSIONS_REQUEST_CODE);
         }
 
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        Animation slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_from_left);
+        findViewById(R.id.total_steps).startAnimation(slideInAnimation);
+        findViewById(R.id.total_step_label).startAnimation(fadeIn);
+        findViewById(R.id.sensor_steps_label).startAnimation(fadeIn);
+        findViewById(R.id.sensor_steps_value).startAnimation(slideInAnimation);
+        findViewById(R.id.sleep_session_label).startAnimation(fadeIn);
+        findViewById(R.id.sleep_session).startAnimation(slideInAnimation);
+        findViewById(R.id.total_calories_burned_label).startAnimation(fadeIn);
+        findViewById(R.id.total_calories_burned).startAnimation(slideInAnimation);
+        findViewById(R.id.excersice_session_label).startAnimation(fadeIn);
+        findViewById(R.id.exercise_session).startAnimation(slideInAnimation);
+        findViewById(R.id.heart_point_label).startAnimation(fadeIn);
+        findViewById(R.id.heart_point).startAnimation(slideInAnimation);
+
+
+
 
 
         healthConnect = new HealthConnect(this);
@@ -95,7 +114,6 @@ public class HealthConnectActivity extends AppCompatActivity {
         retrieveAndDisplayCaloriesData(startOfYesterday, endOfYesterday);
         retrieveAndDisplaySleepData(startOfYesterday, endOfYesterday);
         retrieveAndDisplayExerciseSessionData(startOfYesterday, endOfYesterday);
-
 
         // Retrieve steps data from yesterday
 //        CompletableFuture<ReadRecordsResponse<StepsRecord>> future = healthConnect.readStepsByTimeRange(startTime, endTime);
@@ -130,8 +148,8 @@ public class HealthConnectActivity extends AppCompatActivity {
             if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
                 sensorStepsCount = (long) event.values[0];
                 runOnUiThread(() -> {
-                    TextView sensorStepsTextView = findViewById(R.id.sensor_steps);
-                    sensorStepsTextView.setText("Sensor Steps: " + sensorStepsCount);
+                    TextView sensorStepsTextView = findViewById(R.id.sensor_steps_value);
+                    sensorStepsTextView.setText("" + sensorStepsCount);
                 });
             }
         }

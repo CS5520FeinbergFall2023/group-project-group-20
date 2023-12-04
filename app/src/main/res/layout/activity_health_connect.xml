@@ -1,139 +1,106 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/testHealthConnet"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <TextView
-        android:id="@+id/total_steps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="24dp"
-        android:text="0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
-        app:layout_constraintStart_toEndOf="@+id/total_step_label"
-        app:layout_constraintTop_toBottomOf="@+id/total_calories_burned" />
-
-    <TextView
-        android:id="@+id/total_step_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Total Step: "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.211"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total_calories_burned_label" />
-
-
-    <TextView
-        android:id="@+id/sensor_steps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="8dp"
-        android:text="Sensor Steps: 0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total_steps" />
-
-    <TextView
-        android:id="@+id/sleep_session_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Sleep (min):"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.207"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/excersice_session_label"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/sleep_session"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.288"
-        app:layout_constraintStart_toEndOf="@+id/sleep_session_label"
-        app:layout_constraintTop_toBottomOf="@+id/exercise_session"
-        app:layout_constraintVertical_bias="0.0" />
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/background_gradient">
 
     <TextView
         android:id="@+id/total_calories_burned_label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Calories_burned:"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.235"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.174" />
+        android:text="Calories burned:"
+        android:fontFamily="@font/roboto_black"
+        android:layout_marginTop="8dp" />
 
     <TextView
         android:id="@+id/total_calories_burned"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.154"
-        app:layout_constraintStart_toEndOf="@id/total_calories_burned_label"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.174" />
+        android:background="@drawable/textview_border"
+        android:minWidth="64dp"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/total_step_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_black"
+        android:text="Total Step:"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/total_steps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textview_border"
+        android:minWidth="64dp"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/sensor_steps_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_black"
+        android:text="Sensor Steps:"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/sensor_steps_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textview_border"
+        android:minWidth="64dp"
+        android:text="0" />
 
     <TextView
         android:id="@+id/excersice_session_label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Exercise Session:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.251"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total_step_label" />
+        android:fontFamily="@font/roboto_black"
+        android:layout_marginTop="16dp"
+        android:text="Exercise Session:" />
 
     <TextView
         android:id="@+id/exercise_session"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.139"
-        app:layout_constraintStart_toEndOf="@+id/excersice_session_label"
-        app:layout_constraintTop_toBottomOf="@+id/total_steps" />
+        android:background="@drawable/textview_border"
+        android:minWidth="64dp"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/sleep_session_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_black"
+        android:text="Sleep (min):"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/sleep_session"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textview_border"
+        android:minWidth="64dp"
+        android:text="0" />
 
     <TextView
         android:id="@+id/heart_point_label"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_black"
         android:text="Heart points"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.215"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sleep_session_label"
-        app:layout_constraintVertical_bias="0.068" />
+        android:layout_marginTop="16dp" />
 
     <TextView
         android:id="@+id/heart_point"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.248"
-        app:layout_constraintStart_toEndOf="@+id/heart_point_label"
-        app:layout_constraintTop_toBottomOf="@+id/sleep_session"
-        app:layout_constraintVertical_bias="0.068" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:background="@drawable/textview_border"
+        android:minWidth="64dp"
+        android:text="0" />
+
+</LinearLayout>
+
