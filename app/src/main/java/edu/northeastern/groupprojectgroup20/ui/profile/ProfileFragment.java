@@ -1,8 +1,11 @@
 package edu.northeastern.groupprojectgroup20.ui.profile;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,6 +55,8 @@ public class ProfileFragment extends Fragment {
 
     Button editContent, submitChange, conceal;
 
+    UserDetails userDetails;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 //        ProfileViewModel profileViewModel =
@@ -83,6 +89,17 @@ public class ProfileFragment extends Fragment {
         firebaseProfile = FirebaseAuth.getInstance();
 
         if (savedInstanceState != null ){
+//            userGender = savedInstanceState.get("gender").toString();
+//            userDob = savedInstanceState.get("dob").toString();
+//            userHeight = savedInstanceState.get("height").toString();
+//            userWeight =savedInstanceState.get("weight").toString();
+//            textView_show_mail.setText(userEmail);
+//            textView_profile_dob.setText(userDob);
+//            textView_profile_alias_name.setText(alis_name);
+//            textView_profile_gender.setText(userGender);
+//            textView_profile_weight.setText(userWeight);
+//            textView_profile_height.setText(userHeight);
+            Log.e(TAG, savedInstanceState.toString());
 
         }
 

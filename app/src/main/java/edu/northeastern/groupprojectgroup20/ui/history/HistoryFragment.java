@@ -83,13 +83,14 @@ public class HistoryFragment extends Fragment {
             //Get value map
             Map singleDate = (Map) entry.getValue();
            // singleDate.get("lastUpdateTime");
-            String calories = String.format ("%.0f", singleDate.get("calories"));
+            String calories = String.valueOf (singleDate.get("calories"));
             String exercise = String.valueOf ( singleDate.get("exercise"));
             String lastUpdateTime = (String) singleDate.get("lastUpdateTime");
+            String updateTime = lastUpdateTime.substring(0,8);
             String sleep = String.valueOf ( singleDate.get("sleep"));
             String steps = String.valueOf (singleDate.get("steps"));
             //Log.e(TAG, calories + " " +exercise + " "+lastUpdateTime + " "+sleep + " "+steps );
-            data.add(new HistoryData(lastUpdateTime, calories, exercise, sleep , steps));
+            data.add(new HistoryData(updateTime, calories, exercise, sleep , steps));
 
         }
 
