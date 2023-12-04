@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import edu.northeastern.groupprojectgroup20.MainActivity;
 import edu.northeastern.groupprojectgroup20.R;
 import edu.northeastern.groupprojectgroup20.data.model.UserDetails;
 import edu.northeastern.groupprojectgroup20.databinding.FragmentProfileBinding;
@@ -55,7 +57,7 @@ public class ProfileFragment extends Fragment {
 
     Button editContent, submitChange, conceal;
 
-    UserDetails userDetails;
+   SwipeRefreshLayout swipeProfile;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -71,6 +73,9 @@ public class ProfileFragment extends Fragment {
         if(root == null) {
             root = inflater.inflate(R.layout.fragment_profile, container, false);
         }
+
+       // swipeToRefresh();
+
         // init text view
         textView_show_mail =root.findViewById(R.id.textView_show_mail);
         textView_profile_alias_name = root.findViewById(R.id.textView_show_alias);
@@ -196,6 +201,27 @@ public class ProfileFragment extends Fragment {
 
         return root;
     }
+
+//    private void swipeToRefresh() {
+//        swipeProfile = root.findViewById(R.id.swipe_profile);
+//
+//        swipeProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                Intent i = getActivity().getIntent();
+//                i.putExtra(,);
+//                startActivity(i);
+//                getActivity().finish();
+//                getActivity().overridePendingTransition(0, 0);
+//                swipeProfile.setRefreshing(false);
+//            }
+//        });
+//        swipeProfile.setColorSchemeResources(
+//                android.R.color.holo_blue_bright,
+//                android.R.color.holo_green_light,
+//                android.R.color.holo_orange_light,
+//                android.R.color.holo_red_light );
+//    }
 
     private void showUserProfile(FirebaseUser firebaseUser) {
         String userUid = firebaseUser.getUid();
