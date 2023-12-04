@@ -84,7 +84,6 @@ public class HealthConnectActivity extends AppCompatActivity {
 
 
 
-
         healthConnect = new HealthConnect(this);
 
         totalSteps = findViewById(R.id.total_steps);
