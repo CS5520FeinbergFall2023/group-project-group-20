@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 //import com.unity3d.player.UnityPlayerActivity;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -32,10 +34,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 
 import edu.northeastern.groupprojectgroup20.databinding.ActivityMainBinding;
+import edu.northeastern.groupprojectgroup20.healthconnect.HealthConnect;
 import edu.northeastern.groupprojectgroup20.healthconnect.HealthConnectActivity;
+import edu.northeastern.groupprojectgroup20.healthconnect.HealthConnectUtil;
 import edu.northeastern.groupprojectgroup20.healthconnect.HealthDataService;
 import edu.northeastern.groupprojectgroup20.ui.login.Login;
 
@@ -45,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private Button health_connect;
     private Button unityLauncher;
+
+    private HealthConnect healthConnect;
+    private ActivityResultContract<Set<String>, Set<String>> permissionRequestContract;
+    private ActivityResultLauncher<Set<String>> permissionRequestLauncher;
 
     TextView display_user_email;
 
@@ -59,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -140,8 +148,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent serviceIntent = new Intent(this, HealthDataService.class);
-        startService(serviceIntent);
+        //Initialize HealthConnect and check for permission to access health data
+        healthConnect = new HealthConnect(this);
+
+        permissionRequestContract = healthConnect.requestPermissionsActivityContract();
+        permissionRequestLauncher = registerForActivityResult(permissionRequestContract, grantedPermissions -> {
+            if (grantedPermissions.containsAll(healthConnect.getRequiredPermissions())) {
+                // Permissions granted, start HealthDataService
+                Intent serviceIntent = new Intent(this, HealthDataService.class);
+                startService(serviceIntent);
+            } else {
+                // Handle permission denial
+                Log.d("MainActivity", "Required permissions not granted.");
+            }
+        });
+
+        HealthConnectUtil.INSTANCE.checkPermissions(this, allPermissionsGranted -> {
+            runOnUiThread(() -> {
+                if (allPermissionsGranted) {
+                    // Permissions granted, start HealthDataService
+                    Intent serviceIntent = new Intent(MainActivity.this, HealthDataService.class);
+                    startService(serviceIntent);
+                } else {
+                    // Request permissions
+                    Set<String> permissionsToRequest = healthConnect.getRequiredPermissions();
+                    permissionRequestLauncher.launch(permissionsToRequest);
+                }
+            });
+            return null;
+        });
+
+
+//        Intent serviceIntent = new Intent(this, HealthDataService.class);
+//        startService(serviceIntent);
 
         unityLauncher = findViewById(R.id.unityLauncher);
 //        unityLauncher.setOnClickListener(v -> {
@@ -164,4 +203,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }

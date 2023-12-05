@@ -138,6 +138,10 @@ class HealthConnect(private val context: Context) {
         return PermissionController.createRequestPermissionResultContract()
     }
 
+    fun getRequiredPermissions(): Set<String> {
+        return PERMISSIONS
+    }
+
 
 
     // read all the steps data given time range and return a list of StepsRecord
@@ -252,6 +256,7 @@ class HealthConnect(private val context: Context) {
             )
         }
     }
+
 }
 
 

@@ -236,7 +236,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/conceal_change_weight_or_height"
                 android:layout_below="@id/below_line_5"
-                android:text="conceal"
+                android:text="cancel"
                 android:textColor="@color/black"
                 android:background="@color/cardview_shadow_start_color"
                 android:visibility="invisible"
