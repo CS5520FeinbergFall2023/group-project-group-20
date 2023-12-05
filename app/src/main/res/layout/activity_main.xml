@@ -19,7 +19,7 @@
             android:id="@+id/new_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:text=" " />
 
         <ImageView
             android:id="@+id/new_image_view"
