@@ -6,14 +6,15 @@ import static android.content.Context.SENSOR_SERVICE;
 import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.content.pm.PackageManager;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 
 import edu.northeastern.groupprojectgroup20.R;
+import edu.northeastern.groupprojectgroup20.util.NetUtil;
 import edu.northeastern.groupprojectgroup20.data.model.UserDetails;
 import edu.northeastern.groupprojectgroup20.databinding.FragmentHomeBinding;
 
@@ -56,7 +58,19 @@ public class HomeFragment extends Fragment {
     ImageView gender_photo;
 
     TextView alias_name;
-
+    private Handler mHandler = new Handler(Looper.myLooper()){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0){
+                String result = (String) msg.obj;
+                String [] list = result.split(",");
+                for (int i = 0; i < list.length; i++) {
+                    Log.e("result", list[i]);
+                }
+            }
+        }
+    };
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         if (root == null) {
@@ -120,7 +134,11 @@ public class HomeFragment extends Fragment {
           lat =  location.getLatitude();
            lon = location.getLongitude();
            // get weather here using Thread
-
+            String [] newLats = lat.toString().split("\\.");
+            String [] newLons = lon.toString().split("\\.");
+            String newLat = newLats[0]+"."+newLats[1].substring(0,2);
+            String newLon = newLons[0]+"."+newLons[1].substring(0,2);
+            callWebServiceWeatherHandler(newLat,newLon);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -145,24 +163,20 @@ public class HomeFragment extends Fragment {
             binding = null;
         }
 
-    public void callWebServiceWeatherHandler(){
+    public void callWebServiceWeatherHandler(String lat, String lon){
         // open thread call api
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-//                // avoid app crashing with empty string
-//                if (!input.getText().toString().equals("")) {
-//                    // here call api
-//                    String result =  NetUtil.getExchangeRate(selectedBaseCurrency,selectedTargetCurrency);
-//                    // trans to main thread
-//                    Message message = Message.obtain();
-//                    message.what = 0;
-//                    message.obj = result;
-//                    mHandler.sendMessage(message);
-//                }
-
-            }
+                    // here call api
+                    String result =  NetUtil.getWeather(lat,lon);
+                    // trans to main thread
+                    Message message = Message.obtain();
+                    message.what = 0;
+                    message.obj = result;
+                    mHandler.sendMessage(message);
+                }
         }).start();
     }
     }
