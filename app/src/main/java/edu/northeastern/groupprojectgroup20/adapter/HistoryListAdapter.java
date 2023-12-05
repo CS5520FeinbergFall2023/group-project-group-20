@@ -49,7 +49,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         String year = date.substring(0,4) ;
         String month = date.substring(4,6);
         String day = date.substring(6,8);
-        String newDate = day + "/" + month + "/" + year;
+        String newDate = month + "/" + day + "/" + year;
         holder.textView_history_date.setText(newDate);
         holder.textView_history_calories.setText(String.valueOf( healthData.getCalories()));
         holder.textView_history_exercise.setText(String.valueOf(healthData.getExercise()));
