@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
         //Initialize HealthConnect and check for permission to access health data
         healthConnect = new HealthConnect(this);
 
+        // Initialize the ActivityResultLauncher and ActivityResultContract
         permissionRequestContract = healthConnect.requestPermissionsActivityContract();
         permissionRequestLauncher = registerForActivityResult(permissionRequestContract, grantedPermissions -> {
             if (grantedPermissions.containsAll(healthConnect.getRequiredPermissions())) {
