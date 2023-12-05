@@ -1,12 +1,17 @@
 package edu.northeastern.groupprojectgroup20.ui.profile;
 
+import static android.content.ContentValues.TAG;
+
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -14,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,9 +35,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
+
+import edu.northeastern.groupprojectgroup20.MainActivity;
 import edu.northeastern.groupprojectgroup20.R;
 import edu.northeastern.groupprojectgroup20.data.model.UserDetails;
 import edu.northeastern.groupprojectgroup20.databinding.FragmentProfileBinding;
+import edu.northeastern.groupprojectgroup20.ui.login.Register;
 
 public class ProfileFragment extends Fragment {
 
@@ -51,6 +62,9 @@ public class ProfileFragment extends Fragment {
 
     Button editContent, submitChange, conceal;
 
+   SwipeRefreshLayout swipeProfile;
+    DatePickerDialog picker;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 //        ProfileViewModel profileViewModel =
@@ -65,6 +79,9 @@ public class ProfileFragment extends Fragment {
         if(root == null) {
             root = inflater.inflate(R.layout.fragment_profile, container, false);
         }
+
+       // swipeToRefresh();
+
         // init text view
         textView_show_mail =root.findViewById(R.id.textView_show_mail);
         textView_profile_alias_name = root.findViewById(R.id.textView_show_alias);
@@ -82,10 +99,6 @@ public class ProfileFragment extends Fragment {
 
         firebaseProfile = FirebaseAuth.getInstance();
 
-        if (savedInstanceState != null ){
-
-        }
-
         FirebaseUser firebaseUser = firebaseProfile.getCurrentUser();
         if (firebaseUser == null) {
             Toast.makeText(getActivity(), "something went wrong!!!", Toast.LENGTH_LONG).show();
@@ -93,6 +106,24 @@ public class ProfileFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             showUserProfile(firebaseUser);
         }
+        textView_profile_dob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+
+                // Date picker
+                picker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        textView_profile_dob.setText(dayOfMonth+"/"+(month)+"/"+year);
+                    }
+                }, year,month, day);
+                picker.show();
+            }
+        });
 
         editContent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +210,27 @@ public class ProfileFragment extends Fragment {
 
         return root;
     }
+
+//    private void swipeToRefresh() {
+//        swipeProfile = root.findViewById(R.id.swipe_profile);
+//
+//        swipeProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                Intent i = getActivity().getIntent();
+//                i.putExtra(,);
+//                startActivity(i);
+//                getActivity().finish();
+//                getActivity().overridePendingTransition(0, 0);
+//                swipeProfile.setRefreshing(false);
+//            }
+//        });
+//        swipeProfile.setColorSchemeResources(
+//                android.R.color.holo_blue_bright,
+//                android.R.color.holo_green_light,
+//                android.R.color.holo_orange_light,
+//                android.R.color.holo_red_light );
+//    }
 
     private void showUserProfile(FirebaseUser firebaseUser) {
         String userUid = firebaseUser.getUid();
