@@ -133,9 +133,9 @@ public class HomeFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     GameData gameData = snapshot.getValue(GameData.class);
                     if (gameData != null) {
-                        double HP = gameData.HP;
+                        double HP = gameData.getHP();
                         HPValue.setText(String.valueOf((int) HP));
-                        double ATK = gameData.ATK;
+                        double ATK = gameData.getATK();
                         ATKValue.setText(String.valueOf((int) ATK));
 
                     }
