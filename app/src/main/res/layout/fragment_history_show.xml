@@ -24,13 +24,16 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/history_date1"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:text="dd/mm/yyy"
+            android:text="Date"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/cardview_dark_background"
             android:textAlignment="center"
             android:textSize="16sp" />
 
@@ -40,7 +43,9 @@
             android:layout_height="30dp"
             android:layout_marginStart="5dp"
             android:singleLine="true"
-            android:text="calories"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/cardview_dark_background"
+            android:text="Calories"
             android:textAlignment="center"
             android:textSize="16sp" />
 
@@ -50,8 +55,10 @@
             android:layout_height="30dp"
             android:layout_marginStart="5dp"
             android:singleLine="true"
-            android:text="exercise"
+            android:text="Exercise"
             android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/cardview_dark_background"
             android:textSize="16sp" />
 
         <TextView
@@ -60,8 +67,10 @@
             android:layout_height="30dp"
             android:layout_marginStart="5dp"
             android:singleLine="true"
-            android:text="sleep"
+            android:text="Sleep"
             android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/cardview_dark_background"
             android:textSize="16sp" />
 
         <TextView
@@ -70,7 +79,9 @@
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:singleLine="true"
-            android:text="steps"
+            android:text="Steps"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/cardview_dark_background"
             android:textAlignment="center"
             android:textSize="16sp" />
 

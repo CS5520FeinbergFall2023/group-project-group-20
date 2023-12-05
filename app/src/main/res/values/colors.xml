@@ -14,4 +14,8 @@
     <color name="colorLayerSemiDark">#60000000</color>
     <color name="colorTextPrimary">#212121</color>
     <color name="colorTextHint">#808080</color>
+    <color name="hp">#FFA726</color>
+    <color name="defense">#66BB6A</color>
+    <color name="atk">#EF5350</color>
+    <color name="time">#29B6F6</color>
 </resources>
