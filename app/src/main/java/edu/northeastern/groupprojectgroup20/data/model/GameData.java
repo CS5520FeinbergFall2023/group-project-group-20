@@ -9,8 +9,8 @@ public class GameData {
     private double TotalAccumulatedExercise;
     private long TotalAccumulatedSleep;
     private String lastUpdateTime;
-    private double HP;
-    private double ATK;
+    public double HP;
+    public double ATK;
     private double DEF;
     private String timeStamp;
 

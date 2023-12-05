@@ -36,11 +36,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 import edu.northeastern.groupprojectgroup20.R;
+import edu.northeastern.groupprojectgroup20.data.model.GameData;
 import edu.northeastern.groupprojectgroup20.util.NetUtil;
 import edu.northeastern.groupprojectgroup20.data.model.UserDetails;
 import edu.northeastern.groupprojectgroup20.databinding.FragmentHomeBinding;
@@ -58,6 +61,10 @@ public class HomeFragment extends Fragment {
     ImageView gender_photo;
 
     TextView alias_name;
+
+    TextView HPValue;
+
+    TextView ATKValue;
     private Handler mHandler = new Handler(Looper.myLooper()){
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -71,6 +78,7 @@ public class HomeFragment extends Fragment {
             }
         }
     };
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         if (root == null) {
@@ -83,6 +91,8 @@ public class HomeFragment extends Fragment {
         }
         gender_photo = root.findViewById(R.id.home_page_gender);
         alias_name = root.findViewById(R.id.homepage_alias);
+        HPValue = root.findViewById(R.id.textViewHP);
+        ATKValue = root.findViewById(R.id.textViewATK);
         // get user
         firebaseProfile = FirebaseAuth.getInstance();
 
@@ -116,6 +126,27 @@ public class HomeFragment extends Fragment {
 
                 }
             });
+
+            DatabaseReference referenceGame = FirebaseDatabase.getInstance().getReference("Game Date");
+            referenceGame.child(userUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    GameData gameData = snapshot.getValue(GameData.class);
+                    if (gameData != null) {
+                        double HP = gameData.HP;
+                        HPValue.setText(String.valueOf((int) HP));
+                        double ATK = gameData.ATK;
+                        ATKValue.setText(String.valueOf((int) ATK));
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
 
         }
 
