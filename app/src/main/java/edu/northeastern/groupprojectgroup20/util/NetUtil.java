@@ -22,7 +22,6 @@ public class NetUtil {
         HttpURLConnection connection = null;
         InputStreamReader inputStreamReader = null;
         BufferedReader bufferedReader = null;
-        System.out.println("start");
         try {
             URL url = new URL(urlStr);
             connection = (HttpURLConnection) url.openConnection();

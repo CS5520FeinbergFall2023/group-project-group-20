@@ -75,7 +75,6 @@ public class HomeFragment extends Fragment {
             super.handleMessage(msg);
             if (msg.what == 0){
                 String result = (String) msg.obj;
-                System.out.println(result);
                 String [] results = result.split(",");
               String w= results[3];
                //  "main":"Clear"
@@ -86,7 +85,6 @@ public class HomeFragment extends Fragment {
                         .replace("\"","")
                         .replace("}","")
                         .replace("]","");
-                System.out.println(id);
                 String t = results[7];
 
               String te = t.split(":")[2]
