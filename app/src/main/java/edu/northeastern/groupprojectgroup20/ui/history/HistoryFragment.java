@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 
 import edu.northeastern.groupprojectgroup20.R;
@@ -83,7 +85,8 @@ public class HistoryFragment extends Fragment {
             //Get value map
             Map singleDate = (Map) entry.getValue();
            // singleDate.get("lastUpdateTime");
-            String calories = String.valueOf (singleDate.get("calories"));
+            String calories = String.valueOf (singleDate.get("calories")).split("\\.")[0];
+
             String exercise = String.valueOf ( singleDate.get("exercise"));
             String lastUpdateTime = (String) singleDate.get("lastUpdateTime");
             String updateTime = lastUpdateTime.substring(0,8);
@@ -93,6 +96,13 @@ public class HistoryFragment extends Fragment {
             data.add(new HistoryData(updateTime, calories, exercise, sleep , steps));
 
         }
+        // sort List
+        Collections.sort(data, new Comparator<HistoryData>() {
+            @Override
+            public int compare(HistoryData o1, HistoryData o2) {
+               return  Integer.valueOf(o2.getLastUpdateTime()) -Integer.valueOf( o1.getLastUpdateTime()) ;
+            }
+        });
 
         mHistoryListAdapter.setListData(data);
     }

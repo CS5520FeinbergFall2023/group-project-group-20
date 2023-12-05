@@ -78,6 +78,7 @@ dependencies {
     implementation("androidx.annotation:annotation:1.7.0")
     implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation("com.google.firebase:firebase-firestore:24.9.1")
+    implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.17")
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-storage:20.3.0")

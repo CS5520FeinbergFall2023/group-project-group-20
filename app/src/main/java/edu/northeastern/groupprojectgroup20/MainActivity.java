@@ -16,13 +16,17 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 //import com.unity3d.player.UnityPlayerActivity;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -37,6 +41,7 @@ import java.util.Date;
 import java.util.Set;
 
 
+import edu.northeastern.groupprojectgroup20.data.model.UserDetails;
 import edu.northeastern.groupprojectgroup20.databinding.ActivityMainBinding;
 import edu.northeastern.groupprojectgroup20.healthconnect.HealthConnect;
 import edu.northeastern.groupprojectgroup20.healthconnect.HealthConnectActivity;
@@ -188,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
 //            Intent intent = new Intent(MainActivity.this, UnityPlayerActivity.class);
 //            startActivity(intent);
 //        });
+
 
     }
 
