@@ -22,7 +22,6 @@ public class NetUtil {
         HttpURLConnection connection = null;
         InputStreamReader inputStreamReader = null;
         BufferedReader bufferedReader = null;
-        System.out.println("start");
         try {
             URL url = new URL(urlStr);
             connection = (HttpURLConnection) url.openConnection();
@@ -70,12 +69,11 @@ public class NetUtil {
 
     public static String getWeather(String lat, String lon){
         String exchangeRateUrl = EXCHANGE_URL + lat +"&lon="+lon +"&appid="+API_KEY;
-        String result = doGet(exchangeRateUrl);
-        System.out.println(result);
-        return result;
+        return doGet(exchangeRateUrl);
+       // System.out.println(result);
 
     }
     static String API_KEY = "b25fc08da39d4f20fcf28d0b679c6561";
-    static String EXCHANGE_URL = "https://api.openweathermap.org/data/3.0/onecall?lat=";
+    static String EXCHANGE_URL = "https://api.openweathermap.org/data/2.5/weather?lat=";
 
 }

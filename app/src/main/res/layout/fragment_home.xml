@@ -34,8 +34,8 @@
         android:id="@+id/homepage_alias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:text="Alias_name"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent" />
@@ -73,14 +73,15 @@
         app:layout_constraintGuide_percent="0.85" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/photo_weather_city_tem"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
+        android:scaleType="fitXY"
         app:layout_constraintTop_toBottomOf="@+id/weather_city_tem"
-        tools:src="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/weather_city_tem"

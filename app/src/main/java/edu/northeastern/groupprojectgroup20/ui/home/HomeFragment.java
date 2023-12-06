@@ -5,12 +5,14 @@ import static android.content.Context.LOCATION_SERVICE;
 import static android.content.Context.SENSOR_SERVICE;
 import static androidx.core.content.ContextCompat.getSystemService;
 
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,6 +37,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.checkerframework.checker.units.qual.A;
 
@@ -59,23 +62,39 @@ public class HomeFragment extends Fragment {
     String gender;
     FirebaseAuth firebaseProfile;
     ImageView gender_photo;
-
+    ImageView weather_photo;
     TextView alias_name;
-
+    TextView city_content;
     TextView HPValue;
-    TextView ATKValue;
-    TextView DEFValue;
 
+    TextView ATKValue;
     private Handler mHandler = new Handler(Looper.myLooper()){
+        @SuppressLint("SetTextI18n")
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0){
                 String result = (String) msg.obj;
-                String [] list = result.split(",");
-                for (int i = 0; i < list.length; i++) {
-                    Log.e("result", list[i]);
-                }
+                String [] results = result.split(",");
+              String w= results[3];
+               //  "main":"Clear"
+                String weather = w.split(":")[1].replace("\"","");
+               // "icon":"01d"}],
+                String i = results[5];
+                String id = i.split(":")[1]
+                        .replace("\"","")
+                        .replace("}","")
+                        .replace("]","");
+                String t = results[7];
+
+              String te = t.split(":")[2]
+                      .replace("\"","")
+                      .replace(",","");
+                String temp = (int)((Double.valueOf(te)-273.15) *1.8 +32) +"";
+              String city = results[results.length-2].split(":")[1].replace("\"","");
+
+              city_content.setText(city + ", " + weather + ", " + temp +"°F" );
+                Picasso.get().load("https://openweathermap.org/img/wn/"+id+"@2x.png").into(weather_photo);
             }
         }
     };
@@ -94,9 +113,12 @@ public class HomeFragment extends Fragment {
         alias_name = root.findViewById(R.id.homepage_alias);
         HPValue = root.findViewById(R.id.textViewHP);
         ATKValue = root.findViewById(R.id.textViewATK);
-        DEFValue = root.findViewById(R.id.textViewDEF);
+        weather_photo = root.findViewById(R.id.photo_weather_city_tem);
+        city_content = root.findViewById(R.id.weather_city_tem);
+
         // get user
         firebaseProfile = FirebaseAuth.getInstance();
+
 
         FirebaseUser firebaseUser = firebaseProfile.getCurrentUser();
 
@@ -139,8 +161,7 @@ public class HomeFragment extends Fragment {
                         HPValue.setText(String.valueOf((int) HP));
                         double ATK = gameData.getATK();
                         ATKValue.setText(String.valueOf((int) ATK));
-                        double DEF = gameData.getDEF();
-                        DEFValue.setText(String.valueOf((int)DEF));
+
                     }
                 }
 
