@@ -66,8 +66,8 @@ public class HomeFragment extends Fragment {
     TextView alias_name;
     TextView city_content;
     TextView HPValue;
-
     TextView ATKValue;
+    TextView DEFValue;
     private Handler mHandler = new Handler(Looper.myLooper()){
         @SuppressLint("SetTextI18n")
         @Override
@@ -113,6 +113,7 @@ public class HomeFragment extends Fragment {
         alias_name = root.findViewById(R.id.homepage_alias);
         HPValue = root.findViewById(R.id.textViewHP);
         ATKValue = root.findViewById(R.id.textViewATK);
+        DEFValue = root.findViewById(R.id.textViewDEF);
         weather_photo = root.findViewById(R.id.photo_weather_city_tem);
         city_content = root.findViewById(R.id.weather_city_tem);
 
@@ -161,7 +162,8 @@ public class HomeFragment extends Fragment {
                         HPValue.setText(String.valueOf((int) HP));
                         double ATK = gameData.getATK();
                         ATKValue.setText(String.valueOf((int) ATK));
-
+                        double DEF = gameData.getDEF();
+                        DEFValue.setText(String.valueOf((int) DEF));
                     }
                 }
 
