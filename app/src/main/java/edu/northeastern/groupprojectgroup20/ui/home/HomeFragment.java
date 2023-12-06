@@ -63,8 +63,9 @@ public class HomeFragment extends Fragment {
     TextView alias_name;
 
     TextView HPValue;
-
     TextView ATKValue;
+    TextView DEFValue;
+
     private Handler mHandler = new Handler(Looper.myLooper()){
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -93,6 +94,7 @@ public class HomeFragment extends Fragment {
         alias_name = root.findViewById(R.id.homepage_alias);
         HPValue = root.findViewById(R.id.textViewHP);
         ATKValue = root.findViewById(R.id.textViewATK);
+        DEFValue = root.findViewById(R.id.textViewDEF);
         // get user
         firebaseProfile = FirebaseAuth.getInstance();
 
@@ -127,7 +129,7 @@ public class HomeFragment extends Fragment {
                 }
             });
 
-            DatabaseReference referenceGame = FirebaseDatabase.getInstance().getReference("Game Date");
+            DatabaseReference referenceGame = FirebaseDatabase.getInstance().getReference("Game Data");
             referenceGame.child(userUid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -137,7 +139,8 @@ public class HomeFragment extends Fragment {
                         HPValue.setText(String.valueOf((int) HP));
                         double ATK = gameData.getATK();
                         ATKValue.setText(String.valueOf((int) ATK));
-
+                        double DEF = gameData.getDEF();
+                        DEFValue.setText(String.valueOf((int)DEF));
                     }
                 }
 
