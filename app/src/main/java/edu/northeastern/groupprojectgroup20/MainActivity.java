@@ -38,6 +38,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityResultContract<Set<String>, Set<String>> permissionRequestContract;
     private ActivityResultLauncher<Set<String>> permissionRequestLauncher;
 
+    private ImageView genderImageView;
     TextView display_user_email;
 
     TextView display_full_name;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_main); 這行代碼添上之後會導致程序閃退，原因不明。
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -193,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
 //            Intent intent = new Intent(MainActivity.this, UnityPlayerActivity.class);
 //            startActivity(intent);
 //        });
-
 
     }
 
