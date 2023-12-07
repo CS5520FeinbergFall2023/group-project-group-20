@@ -101,45 +101,79 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="12dp" />
 
+
+    <TextView
+        android:id="@+id/textViewHPLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/roboto_black"
+        android:text="HP"
+        app:layout_constraintEnd_toEndOf="@id/guideline_vertical_right"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textViewHP"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:layout_marginTop="104dp"
+        android:layout_width="75dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/bubble_hpbackground"
         android:fontFamily="@font/roboto_black"
+        android:gravity="center"
         android:padding="8dp"
         android:text="HP"
         app:layout_constraintEnd_toEndOf="@id/guideline_vertical_right"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textViewATKLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/roboto_black"
+        android:text="ATK"
+        app:layout_constraintEnd_toEndOf="@id/guideline_vertical_right"
+        app:layout_constraintTop_toBottomOf="@id/textViewHP" />
+
+    <TextView
         android:id="@+id/textViewATK"
         android:layout_width="80dp"
         android:layout_height="40dp"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="72dp"
         android:background="@drawable/bubble_atkbackground"
         android:fontFamily="@font/roboto_black"
+        android:gravity="center"
         android:padding="8dp"
         android:text="ATK"
         app:layout_constraintEnd_toEndOf="@id/guideline_vertical_right"
         app:layout_constraintTop_toBottomOf="@id/textViewHP" />
 
     <TextView
-        android:id="@+id/textViewDEF"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bubble_defbackground"
+        android:id="@+id/textViewDEFLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="24dp"
         android:fontFamily="@font/roboto_black"
-        android:padding="8dp"
         android:text="DEF"
         app:layout_constraintEnd_toEndOf="@id/guideline_vertical_right"
         app:layout_constraintTop_toBottomOf="@id/textViewATK" />
 
+    <TextView
+        android:id="@+id/textViewDEF"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="72dp"
+        android:background="@drawable/bubble_defbackground"
+        android:fontFamily="@font/roboto_black"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="DEF"
+        app:layout_constraintEnd_toEndOf="@id/guideline_vertical_right"
+        app:layout_constraintTop_toBottomOf="@id/textViewATK" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
