@@ -141,8 +141,8 @@ public class HomeFragment extends Fragment {
                     if (userDetails != null) {
                         gender = userDetails.gender;
                         if(gender.equals("female")){
-                            gender_photo.setBackgroundResource(R.drawable.female);
-                        }else gender_photo.setBackgroundResource(R.drawable.male);
+                            gender_photo.setBackgroundResource(R.drawable.female_2);
+                        }else gender_photo.setBackgroundResource(R.drawable.male_2);
                     }
                 }
 
