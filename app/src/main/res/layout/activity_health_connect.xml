@@ -86,21 +86,5 @@
         android:minWidth="64dp"
         android:text="0" />
 
-    <TextView
-        android:id="@+id/heart_point_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_black"
-        android:text="Heart points"
-        android:layout_marginTop="16dp" />
-
-    <TextView
-        android:id="@+id/heart_point"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/textview_border"
-        android:minWidth="64dp"
-        android:text="0" />
-
 </LinearLayout>
 
