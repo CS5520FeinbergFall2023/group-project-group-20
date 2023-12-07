@@ -78,8 +78,7 @@ public class HealthConnectActivity extends AppCompatActivity {
         findViewById(R.id.total_calories_burned).startAnimation(slideInAnimation);
         findViewById(R.id.excersice_session_label).startAnimation(fadeIn);
         findViewById(R.id.exercise_session).startAnimation(slideInAnimation);
-        findViewById(R.id.heart_point_label).startAnimation(fadeIn);
-        findViewById(R.id.heart_point).startAnimation(slideInAnimation);
+
 
 
 
