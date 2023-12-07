@@ -159,11 +159,11 @@ public class HomeFragment extends Fragment {
                     GameData gameData = snapshot.getValue(GameData.class);
                     if (gameData != null) {
                         double HP = gameData.getHP();
-                        HPValue.setText("HP: " + String.valueOf((int) HP));
+                        HPValue.setText(String.valueOf((int) HP));
                         double ATK = gameData.getATK();
-                        ATKValue.setText("ATK: " + String.valueOf((int) ATK));
+                        ATKValue.setText(String.valueOf((int) ATK));
                         double DEF = gameData.getDEF();
-                        DEFValue.setText("DEF: " + String.valueOf((int) DEF));
+                        DEFValue.setText(String.valueOf((int) DEF));
                     }
                 }
 
