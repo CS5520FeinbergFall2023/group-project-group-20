@@ -58,9 +58,9 @@
         android:id="@+id/excersice_session_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_black"
         android:layout_marginTop="16dp"
-        android:text="Exercise Session:" />
+        android:fontFamily="@font/roboto_black"
+        android:text="Exercise Session (min):" />
 
     <TextView
         android:id="@+id/exercise_session"
