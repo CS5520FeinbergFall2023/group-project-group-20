@@ -66,7 +66,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0") // 检查最新版本
 
 
-//    implementation(project(":unityLibrary"))
+    implementation(project(":unityLibrary"))
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")

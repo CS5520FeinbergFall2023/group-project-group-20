@@ -187,10 +187,10 @@ public class MainActivity extends AppCompatActivity {
 //        startService(serviceIntent);
 
         unityLauncher = findViewById(R.id.unityLauncher);
-//        unityLauncher.setOnClickListener(v -> {
-//            Intent intent = new Intent(MainActivity.this, UnityPlayerActivity.class);
-//            startActivity(intent);
-//        });
+        unityLauncher.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, UnityGameHolderActivity.class);
+            startActivity(intent);
+        });
 
     }
 
