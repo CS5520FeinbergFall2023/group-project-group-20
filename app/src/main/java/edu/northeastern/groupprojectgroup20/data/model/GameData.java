@@ -72,7 +72,7 @@ public class GameData {
     //ATK
     public double calculateATKFromCalories() {
         double initialATK = 100;
-        return initialATK + TotalAccumulatedCalories * 0.15;
+        return initialATK + TotalAccumulatedCalories * 0.015;
     }
 
     //DEF
