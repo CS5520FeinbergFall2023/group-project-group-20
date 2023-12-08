@@ -62,7 +62,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 />
         </RelativeLayout>
 
@@ -83,7 +83,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textColor="@color/black"
                 android:id="@+id/textView_show_mail"
                 android:layout_alignStart="@+id/ic_profile"
                 android:hint="Loading..."
@@ -97,6 +97,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
                 android:id="@+id/below_line_1"
+                android:textColor="@color/black"
                 android:layout_below="@+id/textView_show_mail"
                 />
 
@@ -112,6 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_profile_dob"
+                android:textColor="@color/black"
                 android:layout_alignStart="@+id/ic_dob"
                 android:layout_below="@+id/below_line_1"
                 android:layout_marginTop="20dp"
@@ -125,6 +127,7 @@
                 android:id="@+id/below_line_2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:textColor="@color/black"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/textView_profile_dob"
                 />
@@ -141,6 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_profile_gender"
+                android:textColor="@color/black"
                 android:layout_alignStart="@+id/ic_gender"
                 android:layout_below="@+id/below_line_2"
                 android:layout_marginTop="20dp"
@@ -153,6 +157,7 @@
             <View
                 android:id="@+id/below_line_3"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/textView_profile_gender"
@@ -170,6 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView_profile_weight"
+                android:textColor="@color/black"
                 android:layout_alignStart="@+id/ic_weight"
                 android:layout_below="@+id/below_line_3"
                 android:layout_marginTop="20dp"
@@ -182,6 +188,7 @@
             <View
                 android:id="@+id/below_line_4"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/textView_profile_weight"
@@ -201,6 +208,7 @@
                 android:id="@+id/textView_profile_height"
                 android:layout_alignStart="@+id/ic_height"
                 android:layout_below="@+id/below_line_4"
+                android:textColor="@color/black"
                 android:layout_marginTop="10dp"
                 android:hint="Loading..."
                 android:layout_marginStart="50dp"
@@ -211,6 +219,7 @@
             <View
                 android:id="@+id/below_line_5"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
                 android:layout_below="@+id/textView_profile_height"
