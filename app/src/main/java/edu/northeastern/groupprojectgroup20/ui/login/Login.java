@@ -5,9 +5,11 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,6 +40,11 @@ public class Login extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        if (ActivityCompat.checkSelfPermission(Login.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            // apply permission
+            ActivityCompat.requestPermissions(Login.this, new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+        }
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null && currentUser.isEmailVerified()) {
@@ -52,6 +59,11 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
+        if (ActivityCompat.checkSelfPermission(Login.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            // apply permission
+            ActivityCompat.requestPermissions(Login.this, new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+        }
         loginEmail = findViewById(R.id.loginInputEmail);
         loginPassword = findViewById(R.id.loginInputPassword);
         loginSubmit = findViewById(R.id.button_login);

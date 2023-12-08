@@ -1,6 +1,7 @@
 package edu.northeastern.groupprojectgroup20.healthconnect;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import java.util.concurrent.CompletableFuture;
 
 import edu.northeastern.groupprojectgroup20.data.model.GameData;
 import edu.northeastern.groupprojectgroup20.data.model.HealthData;
+import edu.northeastern.groupprojectgroup20.ui.login.Login;
 
 public class HealthDataFetchWorker extends Worker {
     private HealthConnect healthConnect;
