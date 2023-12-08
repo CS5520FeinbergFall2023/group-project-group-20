@@ -3,6 +3,7 @@ package edu.northeastern.groupprojectgroup20.healthconnect
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.HealthConnectClient.Companion.SDK_AVAILABLE
@@ -85,18 +86,24 @@ class HealthConnect(private val context: Context) {
         val availabilityStatus = HealthConnectClient.getSdkStatus(context, HEALTH_CONNECT_PACKAGE)
 
         return when (availabilityStatus) {
-            SDK_AVAILABLE -> true
+            SDK_AVAILABLE -> {
+                Log.e("HealthConnectUtil", "HealthConnectClient is available")
+                true
+            }
             SDK_UNAVAILABLE -> {
+                Log.e("HealthConnectUtil", "HealthConnectClient is unavailable")
                 handleUnavailability()
                 false
             }
 
             SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED -> {
                 promptUserToUpdateHealthConnect()
+                Log.e("HealthConnectUtil", "HealthConnectClient update required")
                 false
             }
 
             else -> {
+                Log.e("HealthConnect", "Unknown HealthConnectClient availability status: $availabilityStatus")
                 false
             }
         }
