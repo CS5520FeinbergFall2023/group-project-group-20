@@ -47,6 +47,7 @@ import java.util.Locale;
 
 import edu.northeastern.groupprojectgroup20.R;
 import edu.northeastern.groupprojectgroup20.data.model.GameData;
+import edu.northeastern.groupprojectgroup20.ui.login.Login;
 import edu.northeastern.groupprojectgroup20.util.NetUtil;
 import edu.northeastern.groupprojectgroup20.data.model.UserDetails;
 import edu.northeastern.groupprojectgroup20.databinding.FragmentHomeBinding;
@@ -186,16 +187,24 @@ public class HomeFragment extends Fragment {
         Geocoder gcd = new Geocoder(getActivity(), Locale.getDefault());
         List<Address> addresses = null;
         try {
-            addresses = gcd.getFromLocation(location.getLatitude(),
-                    location.getLongitude(), 1);
-          lat =  location.getLatitude();
-           lon = location.getLongitude();
-           // get weather here using Thread
-            String [] newLats = lat.toString().split("\\.");
-            String [] newLons = lon.toString().split("\\.");
-            String newLat = newLats[0]+"."+newLats[1].substring(0,2);
-            String newLon = newLons[0]+"."+newLons[1].substring(0,2);
-            callWebServiceWeatherHandler(newLat,newLon);
+            if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            {
+                // apply permission
+                ActivityCompat.requestPermissions(getActivity(), new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+
+            }else {
+                addresses = gcd.getFromLocation(location.getLatitude(),
+                        location.getLongitude(), 1);
+                lat =  location.getLatitude();
+                lon = location.getLongitude();
+                // get weather here using Thread
+                String [] newLats = lat.toString().split("\\.");
+                String [] newLons = lon.toString().split("\\.");
+                String newLat = newLats[0]+"."+newLats[1].substring(0,2);
+                String newLon = newLons[0]+"."+newLons[1].substring(0,2);
+                callWebServiceWeatherHandler(newLat,newLon);
+            }
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);

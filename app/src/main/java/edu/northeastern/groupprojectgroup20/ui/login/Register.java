@@ -241,6 +241,7 @@ public class Register extends AppCompatActivity {
                             } catch ( Exception e) {
                                 Log.e(TAG, e.getMessage() );
                             }
+                            registerProgressBar.setVisibility(View.GONE);
                         }
                     }
                 });
