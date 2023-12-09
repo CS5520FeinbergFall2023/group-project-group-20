@@ -1,10 +1,10 @@
 Group member and focus part：
 
-1: Houming Leng (leng.hou@northeastern.edu)
+1: Houming Leng (leng.hou@northeastern.edu) github username: houmingleng
 
   Login, signup, forgetpassword ,profile (including profile photo update), And add history recycle view basic logic and xml, homepage(Location sensor and weather part xml, logic api code)
 
-2: Hsinyen Wu (wu.hsin@northeastern.edu)
+2: Hsinyen Wu (wu.hsin@northeastern.edu) github username: ianwu0915
 
   App idea design, Integrating Firebase database and Android's Health Connect API to fetch and store fitness data for converting to game usage, fitness history, and health data display. 
 
