@@ -42,6 +42,7 @@
             android:name=".ui.profile.UploadProfilePicture"
             android:exported="false" />
         <activity
+            android:theme="@style/Theme.AppCompat.Light"
             android:name=".ui.login.ForgetPasswordActivity"
             android:exported="false" />
         <activity
