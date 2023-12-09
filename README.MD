@@ -2,7 +2,7 @@ Group member and focus part：
 
 1: Houming Leng (leng.hou@northeastern.edu)
 
-  Login, signup, forgetpassword ,profile, And add history recycle view basic logic and xml, homepage(Location sensor and weather part xml, logic api code)
+  Login, signup, forgetpassword ,profile (including profile photo update), And add history recycle view basic logic and xml, homepage(Location sensor and weather part xml, logic api code)
 
 
 
