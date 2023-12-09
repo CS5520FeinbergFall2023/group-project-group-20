@@ -1,3 +1,11 @@
+Group member and focus part：
+
+1: Houming Leng (leng.hou@northeastern.edu)
+
+  Login, signup, forgetpassword ,profile (including profile photo update), And add history recycle view basic logic and xml, homepage(Location sensor and weather part xml, logic api code)
+
+
+
 To correctly build the Android project with Unity Resource, follow the steps below:
 
 !!! There are some part of the the setting.gradle and build.gradle you have to edit. If you want to try the game part, you can schedule a zoom meeting with me so I can go through the steps with you and fix the problems.
@@ -10,3 +18,4 @@ In order to download this folder, you need to login to your northeastern student
 3. If you miss local.properties file in the root directory, please add it. It should only contain one line: sdk.dir=/Users/chih-taolee/Library/Android/sdk
 
 4. The project should be successfully rebuilt. If you encounter any errors, let me know. After the rebuild, you can launch the app. (The first launch will take time. It could take 2-3 mins approximately)
+
