@@ -4,7 +4,9 @@ Group member and focus part：
 
   Login, signup, forgetpassword ,profile (including profile photo update), And add history recycle view basic logic and xml, homepage(Location sensor and weather part xml, logic api code)
 
+2: Hsinyen Wu (wu.hsin@northeastern.edu)
 
+  App idea design, Integrating Firebase database and Android's Health Connect API to fetch and store fitness data for converting to game usage, fitness history, and health data display. 
 
 To correctly build the Android project with Unity Resource, follow the steps below:
 
