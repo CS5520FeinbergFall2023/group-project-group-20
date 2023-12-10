@@ -13,6 +13,6 @@ Group member and focus part：
   Build up the gaming section with Unity featuring multiplayer mode in real-time. Intergrade the Unity project as an Android library into our main app and build the data transfer between the main app and the Unity game.
   repo of the Unity game: https://github.com/Jazzcort/FitCombat
 
-For user currently using Android 13, you will have to download the Health Connect app in the Google Play store to use our application. If your phone has the latest Android 14, Health Connect is already a part of Android 14 as an Android system app. For further information, please checkout the follwing page:
+For user currently using Android 13 or older version, you will have to download the Health Connect app in the Google Play store to use our application. If your phone has the latest Android 14, Health Connect is already a part of Android 14 as an Android system app. For further information, please checkout the follwing page:
 https://developer.android.com/health-and-fitness/guides/health-connect/plan/availability
 Once you have installed the health connect, please provide permissions to your fitness app, such as google fit or Samsung fit in order to allow health connect to manage your fitness data. 
