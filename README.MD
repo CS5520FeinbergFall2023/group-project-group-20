@@ -13,7 +13,7 @@ Group member and focus part：
   Build up the gaming section with Unity featuring multiplayer mode in real-time. Intergrade the Unity project as an Android library into our main app and build the data transfer between the main app and the Unity game.
   repo of the Unity game: https://github.com/Jazzcort/FitCombat
 
-4. Jiaxi Peng (peng.jia@northeastern.edu) github username:jiaxi9427
+4: Jiaxi Peng (peng.jia@northeastern.edu) github username:jiaxi9427
 
   Homepage(user game attributes display and UI), Health Data UI, step sensor, game attributes design and calculation (part).
 
